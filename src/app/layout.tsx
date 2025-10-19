@@ -10,8 +10,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Fixmate | Dashboard",
-  description: "Service Provider App Dashboard",
+  title: "Jobarman | Dashboard",
+  description: "Job Searching App Dashboard",
 };
 
 export default function RootLayout({

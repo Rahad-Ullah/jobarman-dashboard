@@ -1,10 +1,10 @@
-# Fixmate Dashboard
+# Jobarman Dashboard
 
 ## Getting Started
 
 First, clone the repository:
 ```bash
-git clone https://github.com/Rahad-Ullah/fixmate-dashboard.git
+git clone https://github.com/Rahad-Ullah/jobarman-dashboard.git
 ```
 
 Second, install packages:

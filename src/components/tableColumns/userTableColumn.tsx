@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { IUser } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen, Trash } from "lucide-react";
+import { Eye, Lock, LockOpen } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import UserDetails from "../page/users/userDetails/UserDetails";
@@ -36,27 +36,11 @@ const columns: ColumnDef<IUser>[] = [
     },
   },
   {
-    accessorKey: "userId",
-    header: "ID Number",
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return <p className="px-2">#{item?.userId}</p>;
-    },
-  },
-  // {
-  //   accessorKey: "email",
-  //   header: "Email",
-  //   cell: ({ row }) => {
-  //     const item = row.original as IUser;
-  //     return <p className="px-2">{item?.email}</p>;
-  //   },
-  // },
-  {
-    accessorKey: "phone",
-    header: "Contact",
-    cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2">{item?.phone}</p>;
+      return <p className="px-2 lowercase">{item?.email}</p>;
     },
   },
   {
@@ -86,14 +70,6 @@ const columns: ColumnDef<IUser>[] = [
         //   {item?.role}
         // </Badge>
       );
-    },
-  },
-  {
-    accessorKey: "category",
-    header: () => <div>Category</div>,
-    cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2">{item?.category || "-"}</p>;
     },
   },
   {
@@ -139,7 +115,7 @@ const columns: ColumnDef<IUser>[] = [
               <Lock />
             </Button>
           )}
-          <DeleteModal
+          {/* <DeleteModal
             triggerBtn={
               <Button variant={"ghost"} size={"icon"} className="text-red-500">
                 <Trash />
@@ -148,7 +124,7 @@ const columns: ColumnDef<IUser>[] = [
             title="Are you sure to delete this user?"
             itemId={item?._id}
             action={handleDelete}
-          />
+          /> */}
         </div>
       );
     },

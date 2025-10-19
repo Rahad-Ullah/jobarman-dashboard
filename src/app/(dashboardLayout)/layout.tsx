@@ -21,10 +21,10 @@ export default function DashboardLayout({
             <Image
               src={"/logo.png"}
               alt="logo"
-              width={200}
-              height={100}
+              width={500}
+              height={200}
               priority
-              className="w-auto h-20 px-4"
+              className="w-auto h-20 px-4 py-1"
             />
           </Link>
         </div>

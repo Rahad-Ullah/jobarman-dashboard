@@ -19,7 +19,7 @@ const DashboardTable = ({ table, columns }) => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-secondary font-bold py-4"
+                    className="text-[#2F2F2F] font-bold py-4"
                   >
                     {header.isPlaceholder
                       ? null
@@ -41,7 +41,7 @@ const DashboardTable = ({ table, columns }) => {
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-secondary p-0 h-14">
+                  <TableCell key={cell.id} className="text-[#2F2F2F] p-0 h-14">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

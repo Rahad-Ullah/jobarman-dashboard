@@ -156,7 +156,7 @@
     @apply text-black-100 text-sm font-normal;
   }
 
-                                                                /* hide scrollbar */
+  /* hide scrollbar */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -166,6 +166,17 @@
     /* Firefox */
     -ms-overflow-style: none;
     /* IE and Edge */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    /* Adjust width */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb;
+    /* gray-400 */
+    border-radius: 9999px;
   }
 }
 

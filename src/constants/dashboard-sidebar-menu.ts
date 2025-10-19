@@ -1,9 +1,12 @@
 import {
   BadgeCheck,
   Blocks,
+  BriefcaseBusiness,
   ChartBarStacked,
   FileText,
-  MessageSquareMore,
+  Headset,
+  Megaphone,
+  MessageCircleQuestion,
   ShieldCheck,
   UserRound,
   UsersRound,
@@ -27,13 +30,23 @@ export const sidebarMenu = {
       icon: UsersRound,
     },
     {
+      title: "Job Post Moderation",
+      url: "/job-posts",
+      icon: BriefcaseBusiness,
+    },
+    {
       title: "Category Management",
       url: "/categories",
       icon: ChartBarStacked,
     },
     {
-      title: "Verification",
-      url: "/verification",
+      title: "Advertisement Management",
+      url: "/advertisements",
+      icon: Megaphone,
+    },
+    {
+      title: "Subscription Management",
+      url: "/subscriptions",
       icon: BadgeCheck,
     },
     {
@@ -47,14 +60,19 @@ export const sidebarMenu = {
       icon: ShieldCheck,
     },
     {
-      title: "My Profile",
-      url: "/profile",
-      icon: UserRound,
+      title: "FAQ",
+      url: "/faq",
+      icon: MessageCircleQuestion,
     },
     {
       title: "Help & Support",
-      url: "/support",
-      icon: MessageSquareMore,
+      url: "/supports",
+      icon: Headset,
+    },
+    {
+      title: "My Profile",
+      url: "/profile",
+      icon: UserRound,
     },
     {
       title: "",

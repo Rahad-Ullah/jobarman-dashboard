@@ -47,14 +47,14 @@ export function NavMain({
 
           if (isActive) {
             styles =
-              "bg-secondary-foreground hover:bg-secondary-foreground active:bg-secondary-foreground text-secondary hover:text-secondary active:text-secondary font-semibold rounded-l-full";
-            wrapperStyles = "bg-secondary";
+              "bg-secondary-foreground hover:bg-secondary-foreground active:bg-secondary-foreground text-primary hover:text-primary active:text-primary font-semibold rounded-l-full";
+            wrapperStyles = "bg-primary";
           } else if (isPrev) {
             // prev neighbor gets bottom curve
-            styles = "bg-secondary rounded-br-3xl";
+            styles = "bg-primary rounded-br-3xl";
           } else if (isNext) {
             // next neighbor gets top curve
-            styles = "bg-secondary rounded-tr-3xl";
+            styles = "bg-primary rounded-tr-3xl";
           }
 
           return (
@@ -62,7 +62,7 @@ export function NavMain({
               <SidebarMenuItem className={wrapperStyles}>
                 <SidebarMenuButton
                   tooltip={item.title}
-                  className={`text-white hover:text-white bg-secondary hover:bg-secondary active:bg-secondary active:text-white rounded-none overflow-hidden ${styles}`}
+                  className={`text-white hover:text-white bg-primary hover:bg-primary active:bg-primary active:text-white rounded-none overflow-hidden ${styles}`}
                 >
                   {item.icon && (
                     <span className="icon">

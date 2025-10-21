@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
-const ImageUpload = ({ setFile, user }) => {
-  const [image, setImage] = useState<string | null>(null);
+const ImageUpload = ({ setFile, fallbackImage }) => {
+  const [image, setImage] = useState<string | null>(fallbackImage);
   const [error, setError] = useState<string | null>(null); // State for error message
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +32,15 @@ const ImageUpload = ({ setFile, user }) => {
           className="w-full h-full cursor-pointer flex items-center"
         >
           {/* Display Image or Placeholder */}
-          <Image
-            src={image || `${user.image}`} // Display uploaded image or default
-            alt="Profile"
-            width={350}
-            height={300}
-            className="w-full h-full object-cover rounded-lg"
-          />
+          {image && (
+            <Image
+              src={image as string} // Display uploaded image or default
+              alt="Profile"
+              width={350}
+              height={300}
+              className="w-full h-full object-cover rounded-lg"
+            />
+          )}
           <input
             type="file"
             id="image-upload"

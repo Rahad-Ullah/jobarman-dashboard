@@ -1,12 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { IUser } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen } from "lucide-react";
+import { Eye, Lock, LockOpen, PencilLine, Trash } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import UserDetails from "../page/users/userDetails/UserDetails";
+import { ICategory } from "@/types/category";
+import Image from "next/image";
+import EditCategoryForm from "../forms/category/EditCategory";
 
 // handle delete
 const handleDelete = async () => {
@@ -14,62 +16,37 @@ const handleDelete = async () => {
 };
 
 // table column definition
-const columns: ColumnDef<IUser>[] = [
+const columns: ColumnDef<ICategory>[] = [
   {
     accessorKey: "id",
     header: "SL",
     cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2">{item?._id}</p>;
+      const item = row.original as ICategory;
+      return <p className="px-2">#{row.index + 1}</p>;
+    },
+  },
+  {
+    accessorKey: "icon",
+    header: "Icon",
+    cell: ({ row }) => {
+      const item = row.original as ICategory;
+      return (
+        <Image
+          src={item?.icon}
+          width={100}
+          height={100}
+          alt="icon"
+          className="max-w-12 max-h-12"
+        />
+      );
     },
   },
   {
     accessorKey: "name",
-    header: "User Name",
+    header: "Category Name",
     cell: ({ row }) => {
-      const item = row.original as IUser;
-      return (
-        <p className="px-2">
-          {item?.firstName} {item?.lastName}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2 lowercase">{item?.email}</p>;
-    },
-  },
-  {
-    accessorKey: "location",
-    header: () => <div>Location</div>,
-    cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2">{item?.location}</p>;
-    },
-  },
-  {
-    accessorKey: "role",
-    header: () => <div>Role</div>,
-    cell: ({ row }) => {
-      const item = row.original as IUser;
-      return (
-        <p className="px-2">{item?.role}</p>
-        // <Badge
-        //   className={`capitalize font-medium text-white shadow-none rounded-full py-1.5 w-full flex justify-center ${
-        //     item?.role === "Admin"
-        //       ? "bg-purple-50 text-purple-500 border-purple-400"
-        //       : item?.role === "User"
-        //       ? "bg-orange-50 text-orange-500 border-orange-400"
-        //       : ""
-        //   }`}
-        // >
-        //   {item?.role}
-        // </Badge>
-      );
+      const item = row.original as ICategory;
+      return <p className="px-2">{item?.name}</p>;
     },
   },
   {
@@ -84,47 +61,24 @@ const columns: ColumnDef<IUser>[] = [
           <Modal
             dialogTrigger={
               <Button variant={"ghost"} size={"icon"} className="text-primary">
-                <Eye />
+                <PencilLine />
               </Button>
             }
             dialogTitle=""
             className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <UserDetails />
+            <EditCategoryForm item={item} />
           </Modal>
-
-          {!item.isBlocked && (
-            <DeleteModal
-              triggerBtn={
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="text-zinc-400"
-                >
-                  <LockOpen />
-                </Button>
-              }
-              title="Are you sure to block this user?"
-              description="You can unblock this user later."
-              itemId={item?._id}
-              action={handleDelete}
-            />
-          )}
-          {item.isBlocked && (
-            <Button variant={"ghost"} size={"icon"} className="text-red-500">
-              <Lock />
-            </Button>
-          )}
-          {/* <DeleteModal
+          <DeleteModal
             triggerBtn={
               <Button variant={"ghost"} size={"icon"} className="text-red-500">
                 <Trash />
               </Button>
             }
-            title="Are you sure to delete this user?"
-            itemId={item?._id}
+            title="Are you sure to delete this category?"
+            itemId={item?._id?.toString() || ""}
             action={handleDelete}
-          /> */}
+          />
         </div>
       );
     },

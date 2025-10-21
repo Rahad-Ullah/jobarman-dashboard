@@ -1,5 +1,6 @@
 "use client";
 
+import ImageUpload from "@/components/page/profile/ImageUpload";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,19 +13,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { editCategoryFormSchema } from "@/schemas/formSchemas/category/editCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, XCircleIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const EditCategoryForm = () => {
-  const [subCategoryInput, setSubCategoryInput] = useState("");
-  const [subCategories, setSubCategories] = useState<string[]>([]);
+const EditCategoryForm = ({ item }) => {
+  const [file, setFile] = useState<File | null>(null);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof editCategoryFormSchema>>({
     resolver: zodResolver(editCategoryFormSchema),
-    // defaultValues: { ...product },
+    defaultValues: { ...item },
   });
 
   // 2. Define a submit handler.
@@ -51,51 +50,15 @@ const EditCategoryForm = () => {
             </FormItem>
           )}
         />
-        <div>
-          <h2 className="font-medium mb-2">Sub-Categories</h2>
-          <ul className="list-disc list-inside text-stone-700 space-y-1">
-            {subCategories.map((subCategory, index) => (
-              <li
-                key={index}
-                className="flex items-center justify-between gap-2"
-              >
-                <span>{subCategory}</span>
-                <XCircleIcon
-                  onClick={() =>
-                    setSubCategories(
-                      subCategories.filter((_, i) => i !== index)
-                    )
-                  }
-                  className="size-5 text-red-500 cursor-pointer"
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
         <div className="w-full flex gap-2 items-center">
           <FormItem className="w-full !mt-0">
-            <FormLabel>Category Name</FormLabel>
+            <FormLabel>Category Icon</FormLabel>
             <FormControl className="mt-0">
-              <div className="flex gap-2">
-                <Input
-                  onChange={(e) => setSubCategoryInput(e.target.value)}
-                  placeholder="Enter sub-category name"
-                  className="h-10"
-                />
-                <Button
-                  onClick={() =>
-                    setSubCategories([...subCategories, subCategoryInput])
-                  }
-                  type="button"
-                  variant={"outline"}
-                >
-                  <Plus />
-                </Button>
-              </div>
+              <ImageUpload setFile={setFile} fallbackImage={item?.icon} />
             </FormControl>
           </FormItem>
         </div>
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-end gap-2">
           <Button type="submit" className="rounded-md px-10">
             Update
           </Button>

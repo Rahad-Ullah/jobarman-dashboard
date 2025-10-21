@@ -34,8 +34,13 @@ const addCategoryForm = () => {
 
   return (
     <Form {...form}>
-      <h2 className="text-2xl font-semibold text-center">Add Category</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">Add Category</h2>
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+        <FormItem className="w-full flex justify-center">
+          <FormControl className="mt-0">
+            <ImageUpload setFile={setFile} fallbackImage={""} />
+          </FormControl>
+        </FormItem>
         <FormField
           control={form.control}
           name="name"
@@ -49,14 +54,6 @@ const addCategoryForm = () => {
             </FormItem>
           )}
         />
-        <div className="w-full flex gap-2 items-center">
-          <FormItem className="w-full !mt-0">
-            <FormLabel>Category Icon</FormLabel>
-            <FormControl className="mt-0">
-              <ImageUpload setFile={setFile} fallbackImage={""} />
-            </FormControl>
-          </FormItem>
-        </div>
         <div className="flex justify-end gap-2">
           <Button type="submit" className="rounded-md px-10">
             Submit

@@ -25,7 +25,7 @@ const ImageUpload = ({ setFile, fallbackImage }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-fit">
       <div className="relative w-52 h-40 rounded-lg border-2 border-gray-300">
         <label
           htmlFor="image-upload"

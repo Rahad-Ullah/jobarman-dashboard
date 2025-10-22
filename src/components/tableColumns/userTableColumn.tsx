@@ -2,13 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen, PencilLine, Trash } from "lucide-react";
+import { Eye, Lock, LockOpen } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import UserDetails from "../page/users/userDetails/UserDetails";
-import { ICategory } from "@/types/category";
-import Image from "next/image";
-import EditCategoryForm from "../forms/category/EditCategory";
+import { IUser } from "@/types/user";
 
 // handle delete
 const handleDelete = async () => {
@@ -16,37 +14,48 @@ const handleDelete = async () => {
 };
 
 // table column definition
-const columns: ColumnDef<ICategory>[] = [
+const columns: ColumnDef<IUser>[] = [
   {
     accessorKey: "id",
     header: "SL",
     cell: ({ row }) => {
-      const item = row.original as ICategory;
       return <p className="px-2">#{row.index + 1}</p>;
     },
   },
   {
-    accessorKey: "icon",
-    header: "Icon",
+    accessorKey: "name",
+    header: "User Name",
     cell: ({ row }) => {
-      const item = row.original as ICategory;
+      const item = row.original as IUser;
       return (
-        <Image
-          src={item?.icon}
-          width={100}
-          height={100}
-          alt="icon"
-          className="max-w-12 max-h-12"
-        />
+        <p className="px-2">
+          {item?.firstName} {item?.lastName}
+        </p>
       );
     },
   },
   {
-    accessorKey: "name",
-    header: "Category Name",
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => {
-      const item = row.original as ICategory;
-      return <p className="px-2">{item?.name}</p>;
+      const item = row.original as IUser;
+      return <p className="px-2">{item?.email}</p>;
+    },
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
+    cell: ({ row }) => {
+      const item = row.original as IUser;
+      return <p className="px-2">{item?.location}</p>;
+    },
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => {
+      const item = row.original as IUser;
+      return <p className="px-2">{item?.role}</p>;
     },
   },
   {
@@ -61,24 +70,48 @@ const columns: ColumnDef<ICategory>[] = [
           <Modal
             dialogTrigger={
               <Button variant={"ghost"} size={"icon"} className="text-primary">
-                <PencilLine />
+                <Eye />
               </Button>
             }
             dialogTitle=""
             className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <EditCategoryForm item={item} />
+            <UserDetails />
           </Modal>
-          <DeleteModal
-            triggerBtn={
-              <Button variant={"ghost"} size={"icon"} className="text-red-500">
-                <Trash />
-              </Button>
-            }
-            title="Are you sure to delete this category?"
-            itemId={item?._id?.toString() || ""}
-            action={handleDelete}
-          />
+          {/* Block or unblock */}
+          {item.isBlocked ? (
+            <DeleteModal
+              triggerBtn={
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className="text-red-500"
+                >
+                  <Lock />
+                </Button>
+              }
+              title="Are you sure to unblock this user?"
+              description="You can block the user later."
+              itemId={item?._id?.toString() || ""}
+              action={handleDelete}
+            />
+          ) : (
+            <DeleteModal
+              triggerBtn={
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className="text-gray-400"
+                >
+                  <LockOpen />
+                </Button>
+              }
+              title="Are you sure to block this user?"
+              description="You can unblock the user later."
+              itemId={item?._id?.toString() || ""}
+              action={handleDelete}
+            />
+          )}
         </div>
       );
     },

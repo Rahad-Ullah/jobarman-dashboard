@@ -13,10 +13,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import userTableColumns from "@/components/tableColumns/userTableColumn";
 import { IUser } from "@/types/user";
 import DashboardTable from "@/components/shared/table";
 import TablePagination from "@/components/shared/table-pagination";
+import categoryTableColumns from "@/components/tableColumns/categoryTableColumns";
 
 const CategoryTable = ({ data = [], filters, meta }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -29,7 +29,7 @@ const CategoryTable = ({ data = [], filters, meta }) => {
 
   const table = useReactTable<IUser>({
     data: data || [],
-    columns: userTableColumns as ColumnDef<IUser>[],
+    columns: categoryTableColumns as ColumnDef<IUser>[],
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -51,7 +51,7 @@ const CategoryTable = ({ data = [], filters, meta }) => {
       <section></section>
       {/* table and pagination*/}
       <section className="flex-1 flex flex-col justify-between gap-4 p-4 pt-2 bg-white rounded-xl">
-        <DashboardTable table={table} columns={userTableColumns} />
+        <DashboardTable table={table} columns={categoryTableColumns} />
         <TablePagination table={table} meta={meta} />
       </section>
     </div>

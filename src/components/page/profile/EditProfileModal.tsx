@@ -81,7 +81,7 @@ const EditProfileModal = ({ user }) => {
         </DialogHeader>
         <div className="grid gap-4">
           <Label>Upload Profile Image</Label>
-          <ImageUpload setFile={setFile} user={user} />
+          <ImageUpload setFile={setFile} fallbackImage={user.image} />
         </div>
         <section>
           <Form {...form}>
@@ -92,13 +92,32 @@ const EditProfileModal = ({ user }) => {
               {/* First Name Field */}
               <FormField
                 control={form.control}
-                name="name"
+                name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>First Name</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="John"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Last Name Field */}
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Doe"
                         {...field}
                         value={field.value ?? ""}
                       />
@@ -117,9 +136,12 @@ const EditProfileModal = ({ user }) => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        type="email"
                         placeholder="me@example.com"
                         {...field}
                         value={field.value ?? ""}
+                        readOnly
+                        disabled
                       />
                     </FormControl>
                     <FormMessage />

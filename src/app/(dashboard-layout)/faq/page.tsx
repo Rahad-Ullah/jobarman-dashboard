@@ -1,3 +1,4 @@
+import AddFaqForm from "@/components/forms/faq/AddFaqForm";
 import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import PageTitle from "@/components/shared/PageTitle";
@@ -36,7 +37,7 @@ export default function FaqSection() {
             }
             className="max-w-[30vw] p-6 bg-secondary-foreground"
           >
-            {/* <AddPlanForm /> */}
+            <AddFaqForm />
           </Modal>
         </div>
       </section>

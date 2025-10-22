@@ -1,3 +1,4 @@
+import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import PageTitle from "@/components/shared/PageTitle";
 import {
@@ -13,6 +14,12 @@ import { ChevronDown, Pencil, Plus, Trash2 } from "lucide-react";
 type FAQ = {
   question: string;
   answer: string;
+};
+
+const handleDelete = async (itemId: string) => {
+  "use server";
+  // Placeholder for delete action
+  console.log(`Deleting FAQ with id: ${itemId}`);
 };
 
 export default function FaqSection() {
@@ -56,13 +63,20 @@ export default function FaqSection() {
                   >
                     <Pencil className="w-4 h-4" />
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-500 hover:text-destructive"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                  <DeleteModal
+                    triggerBtn={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-gray-500 hover:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    }
+                    itemId={idx.toString()}
+                    action={handleDelete}
+                    title="Are you sure to delete this item?"
+                  />
                 </div>
               </div>
               <AccordionContent className="px-4 pb-4 text-sm text-gray-700">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,37 +32,57 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function AddPlanForm() {
+type Plan = {
+  planType: string;
+  customerType: string;
+  price: number;
+  features: string[];
+};
+
+type Props = {
+  initialPlan: Plan;
+};
+
+export default function EditPlanForm({ initialPlan }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      planType: "Platinum Plan",
-      customerType: "Job Seeker",
+      planType: initialPlan.planType,
+      customerType: initialPlan.customerType,
       feature: "",
-      price: 19.99,
+      price: initialPlan.price,
     },
   });
 
   const [features, setFeatures] = useState<string[]>([]);
 
-  console.log(features);
+  useEffect(() => {
+    setFeatures(initialPlan.features);
+  }, [initialPlan]);
 
   const handleAddFeature = (feature: string) => {
     if (feature.trim()) {
-      setFeatures([...features, feature.trim()]);
+      setFeatures([...features]);
       form.setValue("feature", "");
     }
   };
 
-  const onSubmit = (values: FormValues) => {
-    console.log("Submitted values:", values);
-    console.log("Features:", features);
+  const handleSubmit = (values: FormValues) => {
+    const updatedPlan: Plan = {
+      planType: values.planType,
+      customerType: values.customerType,
+      price: values.price,
+      features,
+    };
+
+    // Handle the updated plan (e.g., send to API or update state)
+    console.log("Updated Plan:", updatedPlan);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <h2 className="text-2xl font-semibold">Add Plan</h2>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <h2 className="text-2xl font-semibold">Edit Plan</h2>
 
         {/* Dropdowns */}
         <div className="grid grid-cols-2 gap-4">
@@ -120,6 +140,7 @@ export default function AddPlanForm() {
           />
         </div>
 
+        {/* Price Field */}
         <FormField
           control={form.control}
           name="price"
@@ -147,7 +168,7 @@ export default function AddPlanForm() {
           name="feature"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Feature</FormLabel>
+              <FormLabel>Add Feature</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Input
@@ -174,7 +195,7 @@ export default function AddPlanForm() {
           {features.map((feature, idx) => (
             <li
               key={idx}
-              className="flex items-center justify-between text-sm bg-gray-50 rounded"
+              className="flex items-center justify-between text-sm bg-gray-50 rounded px-3"
             >
               <div className="flex items-center gap-2">
                 <CheckCircle className="text-green-600 w-4 h-4" />
@@ -198,7 +219,7 @@ export default function AddPlanForm() {
         {/* Submit Button */}
         <div className="flex justify-center">
           <Button type="submit" className="px-8">
-            Submit
+            Save Changes
           </Button>
         </div>
       </form>

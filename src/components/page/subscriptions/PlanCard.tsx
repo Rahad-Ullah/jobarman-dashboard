@@ -1,0 +1,83 @@
+"use client";
+
+import EditPlanForm from "@/components/forms/subscription/EditPlanForm";
+import Modal from "@/components/modals/Modal";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, XCircle } from "lucide-react";
+import Image from "next/image";
+
+type Plan = {
+  customerType: string;
+  planType: string;
+  price: number;
+  features: string[];
+};
+
+type Props = {
+  plan: Plan;
+  idx?: number;
+};
+
+const icons = [
+  "https://cdn-icons-png.flaticon.com/512/6130/6130708.png",
+  "https://cdn-icons-png.freepik.com/512/7955/7955211.png",
+  "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
+];
+
+export default function PlanCard({ plan, idx }: Props) {
+  return (
+    <div className="flex flex-col bg-white border border-primary rounded-xl relative">
+      {/* Top Icon */}
+      <div className="flex justify-center w-full absolute -translate-y-1/2 top-0">
+        <div className="bg-white border border-secondary rounded-full p-2">
+          <Image
+            src={idx !== undefined && icons[idx] ? icons[idx] : icons[0]}
+            alt="plan icon"
+            width={50}
+            height={50}
+            className="size-8"
+          />
+        </div>
+      </div>
+
+      {/* Gradient Price Section */}
+      <div className="bg-gradient-to-r from-primary-foreground to-primary rounded-t-lg text-white text-center py-7">
+        <div className="text-4xl font-semibold mt-1">
+          ${plan.price}/
+          <span className="text-lg font-light">{plan.planType}</span>
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="flex-1 p-6 space-y-3 text-sm text-gray-700">
+        {plan.features.map((feature, idx) => {
+          const isExcluded = feature.toLowerCase().startsWith("no ");
+          return (
+            <div key={idx} className="flex items-start gap-2">
+              {isExcluded ? (
+                <XCircle className="text-red-500 min-w-4 w-4 h-4 mt-0.5" />
+              ) : (
+                <CheckCircle className="text-green-600 min-w-4 w-4 h-4 mt-0.5" />
+              )}
+              <span>{feature}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Edit Button */}
+      <div className="p-6 bg-[#EEF6FB] rounded-b-xl">
+        <Modal
+          dialogTrigger={
+            <Button className="w-full bg-gradient-to-r from-primary-foreground to-primary rounded-md">
+              Edit Plan
+            </Button>
+          }
+          className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-6 bg-secondary-foreground"
+        >
+          <EditPlanForm initialPlan={plan} />
+        </Modal>
+      </div>
+    </div>
+  );
+}

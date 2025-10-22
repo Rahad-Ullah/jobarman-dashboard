@@ -1,0 +1,75 @@
+export const demoSubscriptionsData = [
+  {
+    customerType: "Job Seeker",
+    planType: "Free Plan",
+    price: 0,
+    features: [
+      "Browse Job Listings",
+      "AI Resume Analysis (1–50)",
+      "AI Cover Letters",
+      "Resume Score Analysis",
+      "No ATS Score Analysis",
+    ],
+  },
+  {
+    customerType: "Job Seeker",
+    planType: "Silver Plan",
+    price: 19.99,
+    features: [
+      "Unlimited Auto-Apply",
+      "AI-Generated Cover Letters",
+      "ATS Analysis & Optimization Tips",
+      "Smart Resume & Cover Letter Builder",
+      "Priority Support & Job Matching",
+    ],
+  },
+  {
+    customerType: "Job Seeker",
+    planType: "Platinum Plan",
+    price: 69.99,
+    features: [
+      "Everything in Premium",
+      "AI Career Counselor (Personalized Career Guidance, 1-on-1 Sessions)",
+      "Career Coaching (Resume Reviews, Interview Prep, Career Strategy)",
+      "Priority Support & Job Matching",
+      "Dedicated Recruiter Access",
+    ],
+  },
+  {
+    customerType: "Recruiter",
+    planType: "Free Plan",
+    price: 99,
+    features: [
+      "Single Job Posting",
+      "Standard Job Listing Visibility",
+      "No Candidate Insights",
+      "No Dedicated Branding Page",
+      "No AI Recommendations",
+    ],
+  },
+  {
+    customerType: "Recruiter",
+    planType: "Silver Plan",
+    price: 199,
+    features: [
+      "Up To 5 Job Postings Per Month",
+      "Featured Job Listings Visibility",
+      "AI Recommendations (Passive Candidates)",
+      "No Dedicated Branding Page",
+      "No Priority Matching",
+    ],
+  },
+  {
+    customerType: "Recruiter",
+    planType: "Platinum Plan",
+    price: 799,
+    features: [
+      "Unlimited Job Postings",
+      "Featured Job Listings Visibility",
+      "AI Recommendations (Passive Candidates)",
+      "Dedicated Branding Page",
+      "Priority Candidate Matching",
+      "Dedicated Recruiter Support",
+    ],
+  },
+];

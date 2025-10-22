@@ -89,7 +89,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
                 <Trash />
               </Button>
             }
-            title="Are you sure to delete this category?"
+            title="Are you sure to delete this item?"
             itemId={item?._id?.toString() || ""}
             action={handleDelete}
           />

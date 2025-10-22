@@ -1,4 +1,5 @@
 import AddFaqForm from "@/components/forms/faq/AddFaqForm";
+import EditFaqForm from "@/components/forms/faq/EditFaqForm";
 import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import PageTitle from "@/components/shared/PageTitle";
@@ -57,13 +58,22 @@ export default function FaqSection() {
                   <AccordionTrigger className="px-4">
                     <ChevronDown className="text-gray-500 hover:text-primary" />
                   </AccordionTrigger>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-500 hover:text-primary"
+
+                  <Modal
+                    dialogTrigger={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-gray-500 hover:text-primary"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                    }
+                    className="max-w-[30vw] p-6 bg-secondary-foreground"
                   >
-                    <Pencil className="w-4 h-4" />
-                  </Button>
+                    <EditFaqForm initialFaq={faq} />
+                  </Modal>
+
                   <DeleteModal
                     triggerBtn={
                       <Button

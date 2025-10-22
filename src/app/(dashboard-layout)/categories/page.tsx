@@ -20,10 +20,6 @@ const CategoriesPage = async ({ searchParams }) => {
   //   tags: ["users"],
   // });
 
-  const handleDelete = async () => {
-    "use server";
-  };
-
   return (
     <div className="w-full min-h-full flex flex-col">
       {/* page header */}
@@ -47,7 +43,7 @@ const CategoriesPage = async ({ searchParams }) => {
       <section>
         <CategoryTable
           data={demoCategoriesData as never[]}
-          filters={{ searchTerm: "", page: 1 }}
+          filters={{ searchTerm, page: page || 1 }}
           meta={{ page: 1, totalPage: 1, total: 12 } as never}
         />
       </section>

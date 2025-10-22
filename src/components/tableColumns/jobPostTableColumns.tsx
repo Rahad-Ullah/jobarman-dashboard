@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen, Trash } from "lucide-react";
+import { Eye, Trash } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
-import UserDetails from "../page/users/userDetails/UserDetails";
 import { IJobPost } from "@/types/job-post";
 import { Badge } from "../ui/badge";
 import { JobPostStatus } from "@/constants/job-post";
+import JobPostDetails from "../page/job-posts/JobPostDetails";
 
 // handle delete
 const handleDelete = async () => {
@@ -97,9 +97,9 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
               </Button>
             }
             dialogTitle=""
-            className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
+            className="max-w-[50vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-6"
           >
-            <UserDetails />
+            <JobPostDetails />
           </Modal>
 
           <DeleteModal

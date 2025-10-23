@@ -1,6 +1,7 @@
 import StatCard from "@/components/page/analytics/cards/StatCard";
 import { Card } from "@/components/ui/card";
 import { EarningChart } from "@/components/page/analytics/charts/EarningChart";
+import WeeklyReport from "@/components/page/analytics/charts/WeeklyReport";
 
 const AnalyticsPage = () => {
   return (
@@ -14,7 +15,7 @@ const AnalyticsPage = () => {
 
       <EarningChart />
 
-      {/* <UserGrowthChart /> */}
+      <WeeklyReport />
     </Card>
   );
 };

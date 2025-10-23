@@ -51,23 +51,23 @@ const earningsData = {
   2025: [
     { month: "Jan", earning: 1500 },
     { month: "Feb", earning: 1700 },
-    { month: "Mar", earning: 2000 },
-    { month: "Apr", earning: 2500 },
+    { month: "Mar", earning: 1200 },
+    { month: "Apr", earning: 3000 },
     { month: "May", earning: 2300 },
     { month: "Jun", earning: 2800 },
-    { month: "Jul", earning: 2600 },
+    { month: "Jul", earning: 2000 },
     { month: "Aug", earning: 3000 },
-    { month: "Sep", earning: 2900 },
+    { month: "Sep", earning: 4000 },
     { month: "Oct", earning: 3400 },
-    { month: "Nov", earning: 3200 },
-    { month: "Dec", earning: 3700 },
+    { month: "Nov", earning: 2800 },
+    { month: "Dec", earning: 3800 },
   ],
 };
 
 const chartConfig = {
   earning: {
     label: "Earning",
-    color: "#0062EB",
+    color: "#123499",
   },
 } satisfies ChartConfig;
 

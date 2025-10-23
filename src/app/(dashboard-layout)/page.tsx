@@ -2,6 +2,7 @@ import StatCard from "@/components/page/analytics/cards/StatCard";
 import { Card } from "@/components/ui/card";
 import { EarningChart } from "@/components/page/analytics/charts/EarningChart";
 import WeeklyReport from "@/components/page/analytics/charts/WeeklyReport";
+import ManualSearch from "@/components/page/analytics/charts/ManualSearch";
 
 const AnalyticsPage = () => {
   return (
@@ -16,6 +17,8 @@ const AnalyticsPage = () => {
       <EarningChart />
 
       <WeeklyReport />
+
+      <ManualSearch />
     </Card>
   );
 };

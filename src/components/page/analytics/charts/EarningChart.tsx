@@ -67,7 +67,7 @@ const earningsData = {
 const chartConfig = {
   earning: {
     label: "Earning",
-    color: "#123499",
+    color: "#0062EB",
   },
 } satisfies ChartConfig;
 

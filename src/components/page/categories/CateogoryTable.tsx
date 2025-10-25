@@ -19,6 +19,8 @@ import TablePagination from "@/components/shared/table-pagination";
 import categoryTableColumns from "@/components/tableColumns/categoryTableColumns";
 
 const CategoryTable = ({ data = [], filters, meta }) => {
+  console.log(filters);
+  
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

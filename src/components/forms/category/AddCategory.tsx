@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const addCategoryForm = () => {
+const AddCategoryForm = () => {
   const [file, setFile] = useState<File | null>(null);
 
   // 1. Define your form.
@@ -29,7 +29,7 @@ const addCategoryForm = () => {
   function onSubmit(values: z.infer<typeof addCategoryFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    console.log(values, file);
   }
 
   return (
@@ -64,4 +64,4 @@ const addCategoryForm = () => {
   );
 };
 
-export default addCategoryForm;
+export default AddCategoryForm;

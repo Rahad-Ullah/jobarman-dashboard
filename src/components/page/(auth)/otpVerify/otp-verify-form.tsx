@@ -31,8 +31,8 @@ import {
 } from "@/components/ui/input-otp";
 
 const FormSchema = z.object({
-  oneTimeCode: z.string().min(5, {
-    message: "Your one-time password must be 5 digits.",
+  oneTimeCode: z.string().min(4, {
+    message: "Your one-time password must be 4 digits.",
   }),
 });
 export function OtpVerifyForm({
@@ -109,7 +109,7 @@ export function OtpVerifyForm({
           <CardTitle className="text-2xl">Verification code</CardTitle>
           <CardDescription className="pt-2 text-primary-foreground">
             We sent a reset link to <strong>{email || "your email"}</strong>.
-            Enter 5 digit code that is mentioned in the email.
+            Enter 4 digit code that is mentioned in the email.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -126,7 +126,7 @@ export function OtpVerifyForm({
                         <FormItem>
                           <FormControl>
                             <InputOTP
-                              maxLength={5}
+                              maxLength={4}
                               pattern={REGEXP_ONLY_DIGITS}
                               {...field}
                             >
@@ -135,7 +135,6 @@ export function OtpVerifyForm({
                                 <InputOTPSlot index={1} />
                                 <InputOTPSlot index={2} />
                                 <InputOTPSlot index={3} />
-                                <InputOTPSlot index={4} />
                               </InputOTPGroup>
                             </InputOTP>
                           </FormControl>

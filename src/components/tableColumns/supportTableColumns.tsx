@@ -123,6 +123,10 @@ const supportTableColumns: ColumnDef<ISupportTicket>[] = [
               <p className="font-medium">
                 <strong>Message:</strong> <br /> {item?.message}
               </p>
+              {/* <p className="font-medium">
+                <strong>Message:</strong> <br /> {item?.message}
+              </p> */}
+
               {item?.status === "Pending" && (
                 <div className="flex items-center gap-4 justify-end mt-2">
                   <Button className="rounded-md">Mark as resolved</Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import EditPlanForm from "@/components/forms/subscription/EditPlanForm";
+import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -25,6 +26,9 @@ const icons = [
 ];
 
 export default function PlanCard({ plan, idx }: Props) {
+  // handle delete
+  const handleDelete = async () => {};
+
   return (
     <div className="flex flex-col bg-white border border-primary rounded-xl relative">
       {/* Top Icon */}
@@ -66,7 +70,7 @@ export default function PlanCard({ plan, idx }: Props) {
       </div>
 
       {/* Edit Button */}
-      <div className="p-6 bg-[#EEF6FB] rounded-b-xl">
+      <div className="p-6 bg-[#EEF6FB] rounded-b-xl flex flex-col gap-3">
         <Modal
           dialogTrigger={
             <Button className="w-full bg-gradient-to-r from-primary-foreground to-primary rounded-md">
@@ -77,6 +81,16 @@ export default function PlanCard({ plan, idx }: Props) {
         >
           <EditPlanForm initialPlan={plan} />
         </Modal>
+        <DeleteModal
+          triggerBtn={
+            <Button className="w-full bg-gradient-to-r from-primary-foreground to-primary rounded-md">
+              Delete Plan
+            </Button>
+          }
+          title="Are you sure to delete this item?"
+          itemId={""}
+          action={handleDelete}
+        />
       </div>
     </div>
   );

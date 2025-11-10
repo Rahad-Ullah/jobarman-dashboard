@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +30,8 @@ import PageTitle from "@/components/shared/PageTitle";
 import SearchBar from "@/components/shared/SearchBar";
 import { userStatuses } from "@/constants/user";
 import adminTableColumns from "@/components/tableColumns/adminTableColumns";
+import Modal from "@/components/modals/Modal";
+import AddAdminForm from "@/components/forms/subscription/AddPlanForm";
 
 const AdminsTable = ({ users = [], filters, meta }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();
@@ -66,7 +68,7 @@ const AdminsTable = ({ users = [], filters, meta }) => {
       {/* table top option bar */}
       <section className="flex flex-wrap justify-between items-center gap-4 pb-4">
         <PageTitle>Admin Management</PageTitle>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           <SearchBar />
           {/* status Filter Dropdown */}
           <DropdownMenu>
@@ -99,6 +101,17 @@ const AdminsTable = ({ users = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          {/* add new admin button */}
+          <Modal
+            dialogTrigger={
+              <Button>
+                <Plus /> Add New Admin
+              </Button>
+            }
+            className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-6 bg-secondary-foreground"
+          >
+            <AddAdminForm />
+          </Modal>
         </div>
       </section>
 

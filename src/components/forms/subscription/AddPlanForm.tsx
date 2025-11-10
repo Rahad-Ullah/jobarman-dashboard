@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
@@ -20,120 +21,94 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Plus } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
+
+// Route-based permission list
+const availablePermissions = [
+  { route: "/", label: "Home" },
+  { route: "/users", label: "Users" },
+  { route: "/admins", label: "Admins" },
+  { route: "/job-posts", label: "Job Posts" },
+  { route: "/subscriptions", label: "Subscriptions" },
+  { route: "/categories", label: "Categories" },
+  { route: "/advertisements", label: "Advertisements" },
+  { route: "/terms-and-conditions", label: "Terms & Conditions" },
+  { route: "/privacy-policy", label: "Privacy Policy" },
+  { route: "/faq", label: "FAQ" },
+  { route: "/supports", label: "Supports" },
+];
 
 const formSchema = z.object({
-  planType: z.string().min(1, "Select a plan type"),
-  customerType: z.string().min(1, "Select a customer type"),
-  feature: z.string().optional(),
-  price: z.coerce.number().min(0, "Enter a valid price"),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email"),
+  phone: z.string().min(10, "Enter a valid phone number"),
+  permission: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function AddPlanForm() {
+export default function AddAdminForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      planType: "Platinum Plan",
-      customerType: "Job Seeker",
-      feature: "",
-      price: 19.99,
+      name: "",
+      email: "",
+      phone: "",
+      permission: "",
     },
   });
 
-  const [features, setFeatures] = useState<string[]>([]);
+  const [permissions, setPermissions] = useState<string[]>(["/profile"]);
 
-  console.log(features);
+  const handleAddPermission = (route: string) => {
+    if (!permissions.includes(route)) {
+      setPermissions([...permissions, route]);
+    }
+  };
 
-  const handleAddFeature = (feature: string) => {
-    if (feature.trim()) {
-      setFeatures([...features, feature.trim()]);
-      form.setValue("feature", "");
+  const handleRemovePermission = (route: string) => {
+    if (route !== "/profile") {
+      setPermissions(permissions.filter((r) => r !== route));
     }
   };
 
   const onSubmit = (values: FormValues) => {
-    console.log("Submitted values:", values);
-    console.log("Features:", features);
+    console.log("Admin Info:", values);
+    console.log("Permissions:", permissions);
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <h2 className="text-2xl font-semibold">Add Plan</h2>
+        <h2 className="text-2xl font-semibold">Add Admin</h2>
 
-        {/* Dropdowns */}
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="planType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Plan Type</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Plan Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Free Plan">Free Plan</SelectItem>
-                      <SelectItem value="Silver Plan">Silver Plan</SelectItem>
-                      <SelectItem value="Platinum Plan">
-                        Platinum Plan
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="customerType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Customer Type</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Customer Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Job Seeker">Job Seeker</SelectItem>
-                      <SelectItem value="Recruiter">Recruiter</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
+        {/* Name */}
         <FormField
           control={form.control}
-          name="price"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price (USD/month)</FormLabel>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. Rahad Hossain" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="e.g. 19.99"
+                  type="email"
+                  placeholder="admin@example.com"
                   {...field}
-                  className="h-10 bg-white"
                 />
               </FormControl>
               <FormMessage />
@@ -141,58 +116,83 @@ export default function AddPlanForm() {
           )}
         />
 
-        {/* Feature Input */}
+        {/* Phone */}
         <FormField
           control={form.control}
-          name="feature"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Feature</FormLabel>
+              <FormLabel>Phone</FormLabel>
               <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input
-                    placeholder="Unlimited patient appointments"
-                    {...field}
-                    className="h-10 bg-white"
-                  />
-                  <Button
-                    type="button"
-                    size="icon"
-                    onClick={() => handleAddFeature(field.value || "")}
-                  >
-                    <Plus className="w-5 h-5" />
-                  </Button>
-                </div>
+                <Input type="tel" placeholder="+8801234567890" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Feature List */}
+        {/* Permission Dropdown */}
+        <FormField
+          control={form.control}
+          name="permission"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Add Permission</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={(value) => {
+                    handleAddPermission(value);
+                    form.setValue("permission", "");
+                  }}
+                  defaultValue={field.value}
+                  {...field}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select permissions" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availablePermissions.map((perm) => (
+                      <SelectItem key={perm.route} value={perm.route}>
+                        {perm.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Permission List */}
         <ul>
-          {features.map((feature, idx) => (
-            <li
-              key={idx}
-              className="flex items-center justify-between text-sm bg-gray-50 rounded"
-            >
-              <div className="flex items-center gap-2">
-                <CheckCircle className="text-green-600 w-4 h-4" />
-                <span>{feature}</span>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  setFeatures(features.filter((_, i) => i !== idx));
-                }}
-                className="text-gray-400 hover:text-red-500"
+          {permissions.map((route) => {
+            const label =
+              availablePermissions.find((p) => p.route === route)?.label ||
+              (route === "/profile" ? "Profile" : route);
+            return (
+              <li
+                key={route}
+                className={`flex items-center justify-between text-sm bg-gray-50 rounded px-3 ${route === "/profile" && "py-3"}`}
               >
-                <XCircle className="w-4 h-4" />
-              </Button>
-            </li>
-          ))}
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="text-green-600 w-4 h-4" />
+                  <span>{label}</span>
+                </div>
+                {route !== "/profile" && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleRemovePermission(route)}
+                    className="text-gray-400 hover:text-red-500"
+                  >
+                    <XCircle className="w-4 h-4" />
+                  </Button>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Submit Button */}

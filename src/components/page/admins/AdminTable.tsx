@@ -31,7 +31,7 @@ import SearchBar from "@/components/shared/SearchBar";
 import { userStatuses } from "@/constants/user";
 import adminTableColumns from "@/components/tableColumns/adminTableColumns";
 import Modal from "@/components/modals/Modal";
-import AddAdminForm from "@/components/forms/subscription/AddPlanForm";
+import AddAdminForm from "@/components/forms/admin/AddAdminForm";
 
 const AdminsTable = ({ users = [], filters, meta }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();

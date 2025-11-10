@@ -2,14 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen } from "lucide-react";
+import { Lock, LockOpen, PencilLine } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
-import UserDetails from "../page/users/userDetails/UserDetails";
 import { IUser } from "@/types/user";
+import EditAdminForm from "../forms/admin/EditAdminForm";
 
-// handle delete
-const handleDelete = async () => {
+// handle status update
+const handleStatusUpdate = async () => {
   // perform api here...
 };
 
@@ -62,13 +62,20 @@ const adminTableColumns: ColumnDef<IUser>[] = [
           <Modal
             dialogTrigger={
               <Button variant={"ghost"} size={"icon"} className="text-primary">
-                <Eye />
+                <PencilLine />
               </Button>
             }
             dialogTitle=""
             className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <UserDetails />
+            <EditAdminForm
+              admin={{
+                name: "Rahad Hossain",
+                email: "rahad@example.com",
+                phone: "+8801234567890",
+                permissions: ["/", "/users", "/faq"],
+              }}
+            />
           </Modal>
           {/* Block or unblock */}
           {item.isBlocked ? (
@@ -85,7 +92,7 @@ const adminTableColumns: ColumnDef<IUser>[] = [
               title="Are you sure to unblock this user?"
               description="You can block the user later."
               itemId={item?._id?.toString() || ""}
-              action={handleDelete}
+              action={handleStatusUpdate}
             />
           ) : (
             <DeleteModal
@@ -101,7 +108,7 @@ const adminTableColumns: ColumnDef<IUser>[] = [
               title="Are you sure to block this user?"
               description="You can unblock the user later."
               itemId={item?._id?.toString() || ""}
-              action={handleDelete}
+              action={handleStatusUpdate}
             />
           )}
         </div>

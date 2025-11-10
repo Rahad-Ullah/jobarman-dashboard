@@ -8,6 +8,7 @@ import {
   Megaphone,
   MessageCircleQuestion,
   ShieldCheck,
+  ShieldUser,
   UserRound,
   UsersRound,
 } from "lucide-react";
@@ -48,6 +49,11 @@ export const sidebarMenu = {
       title: "Subscription Management",
       url: "/subscriptions",
       icon: BadgeCheck,
+    },
+    {
+      title: "Admin Management",
+      url: "/admins",
+      icon: ShieldUser,
     },
     {
       title: "Terms & Condition",

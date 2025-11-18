@@ -28,6 +28,7 @@ import {
 import { ticketStatuses } from "@/constants/support";
 import PageTitle from "@/components/shared/PageTitle";
 import SearchBar from "@/components/shared/SearchBar";
+import { Button } from "@/components/ui/button";
 
 const SupportTable = ({ tickets = [], filters, meta }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();
@@ -89,6 +90,8 @@ const SupportTable = ({ tickets = [], filters, meta }) => {
               </SelectGroup>
             </SelectContent>
           </Select>
+          <Button>Export to CSV</Button>
+          <Button>Export to PDF</Button>
         </div>
       </section>
 

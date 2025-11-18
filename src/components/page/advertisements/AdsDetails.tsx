@@ -7,11 +7,12 @@ export default function AdsDetails() {
     Organization: "Bootcamp",
     Service: "Training Program",
     Industry: "Cybersecurity",
-    Location: "2464 Royal Ln. Mesa, New Jersey 45463",
     Fee: "Admission Fee",
     Start: "01 Jan 2020",
     End: "01 Jan 2020",
-    Contact: "Company@gmail.com",
+    Email: "company@gmail.com",
+    Phone: "+1-202-555-0122",
+    Address: "2464 Royal Ln. Mesa, New Jersey 45463",
   };
 
   return (

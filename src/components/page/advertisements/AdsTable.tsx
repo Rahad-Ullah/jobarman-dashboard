@@ -66,7 +66,7 @@ const AdsTable = ({ data = [], filters, meta }) => {
       {/* page header */}
       <section className="flex flex-wrap justify-between items-center gap-4 pb-6">
         <PageTitle>Ad Management</PageTitle>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
           {/* status Filter Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -98,6 +98,8 @@ const AdsTable = ({ data = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button>Export to CSV</Button>
+          <Button>Export to PDF</Button>
         </div>
       </section>
       {/* table and pagination*/}

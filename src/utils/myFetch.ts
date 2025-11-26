@@ -36,10 +36,10 @@ export const myFetch = async (
     tags,
     token,
     headers = {},
-    cache = "force-cache",
+    cache = "no-cache",
   }: FetchOptions = {}
 ): Promise<FetchResponse> => {
-  const accessToken = token || (await getToken());
+  const accessToken = await getToken();
 
   const isFormData = body instanceof FormData;
   const hasBody = body !== undefined && method !== "GET";
@@ -49,6 +49,7 @@ export const myFetch = async (
     ...headers,
     ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    ...(token ? { Authorization: `${token}` } : {}),
   };
 
   try {
@@ -81,8 +82,8 @@ export const myFetch = async (
   } catch (error) {
     return {
       success: false,
-      data: null,
       message: "Network error",
+      data: null,
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }

@@ -27,7 +27,7 @@ interface FetchOptions {
   cache?: RequestCache;
 }
 
-export const myFetch = async (
+export const nextFetch = async (
   url: string,
   {
     method = "GET",

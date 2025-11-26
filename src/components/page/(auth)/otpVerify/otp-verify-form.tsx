@@ -16,7 +16,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { myFetch } from "@/utils/myFetch";
+import { nextFetch } from "@/utils/nextFetch";
 import {
   Form,
   FormControl,
@@ -82,7 +82,7 @@ export function OtpVerifyForm({
       id: "resend-otp-toast",
     });
     try {
-      const res = await myFetch("/auth/forget-password", {
+      const res = await nextFetch("/auth/forget-password", {
         method: "POST",
         body: { email },
       });

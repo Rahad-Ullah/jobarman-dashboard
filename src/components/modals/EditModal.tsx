@@ -4,7 +4,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FetchResponse } from "@/utils/myFetch";
+import { FetchResponse } from "@/utils/nextFetch";
 import { useState } from "react";
 import {
   Dialog,

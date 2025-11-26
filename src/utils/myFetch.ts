@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
 
 import { config } from "@/config/env-config";
 import { getToken } from "./get-token";

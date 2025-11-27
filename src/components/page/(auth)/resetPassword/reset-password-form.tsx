@@ -26,6 +26,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { nextFetch } from "@/utils/nextFetch";
 
 // zod schema for form validation
 const FormSchema = z
@@ -64,15 +65,23 @@ export function ResetPasswordForm({
     toast.loading("Reseting...", {
       id: "reset-password-toast",
     });
-    console.log(values, token);
 
     try {
-      //! perform your api call here...
-
-      toast.success("Reseted successfully", {
-        id: "reset-password-toast",
+      const res = await nextFetch("/auth/reset-password", {
+        method: "POST",
+        body: values,
+        token: token as string,
       });
-      router.push(`/login`);
+      if (res?.success) {
+        toast.success("Password reset successfully", {
+          id: "reset-password-toast",
+        });
+        router.push("/login");
+      } else {
+        toast.error(res?.message || "Failed to reset password", {
+          id: "reset-password-toast",
+        });
+      }
     } catch (error: unknown) {
       console.log(error);
     }

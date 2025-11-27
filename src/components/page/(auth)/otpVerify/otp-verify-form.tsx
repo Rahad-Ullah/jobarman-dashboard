@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import toast from "react-hot-toast";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,9 +50,9 @@ export function OtpVerifyForm({
     },
   });
 
-  // if (!email) {
-  //   redirect("/forgot-password");
-  // }
+  if (!email) {
+    redirect("/forgot-password");
+  }
 
   // handle form submit
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {

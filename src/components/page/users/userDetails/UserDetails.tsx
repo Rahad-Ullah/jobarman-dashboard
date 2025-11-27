@@ -61,16 +61,18 @@ const UserDetails = ({ user }: { user: IUser }) => {
             <span className="text-sm">{user.bio}</span>
           </p>
         </div>
-        <div className="bg-white p-3 rounded-lg shadow-md">
-          <Link
-            href={`${IMAGE_URL}${user.resume}`}
-            target="_blank"
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <File className="text-red-500" />
-            <span>{user.resume?.split("/").pop()}</span>
-          </Link>
-        </div>
+        {user.resume && (
+          <div className="bg-white p-3 rounded-lg shadow-md">
+            <Link
+              href={`${IMAGE_URL}${user.resume}`}
+              target="_blank"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <File className="text-red-500" />
+              <span>{user.resume?.split("/").pop()}</span>
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );

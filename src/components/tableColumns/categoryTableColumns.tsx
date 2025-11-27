@@ -8,6 +8,7 @@ import { ICategory } from "@/types/category";
 import DeleteModal from "../modals/DeleteModal";
 import Image from "next/image";
 import EditCategoryForm from "../forms/category/EditCategory";
+import { IMAGE_URL } from "@/config/env-config";
 
 // handle delete item
 const handleDelete = async () => {
@@ -20,13 +21,12 @@ const categoryTableColumns: ColumnDef<ICategory>[] = [
     accessorKey: "id",
     header: "Sl. No",
     cell: ({ row }) => {
-      const item = row.original as ICategory;
       return (
         <Button
           variant={"ghost"}
           className="capitalize w-full justify-start hover:bg-transparent"
         >
-          #{item._id}
+          #{row.index + 1}
         </Button>
       );
     },
@@ -38,7 +38,7 @@ const categoryTableColumns: ColumnDef<ICategory>[] = [
       const item = row.original as ICategory;
       return (
         <Image
-          src={item?.icon}
+          src={`${IMAGE_URL}${item?.image}`}
           alt="icon"
           width={70}
           height={70}

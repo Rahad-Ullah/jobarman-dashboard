@@ -1,24 +1,22 @@
 import AddCategoryForm from "@/components/forms/category/AddCategory";
 import Modal from "@/components/modals/Modal";
-import CategoryTable from "@/components/page/categories/CateogoryTable";
+import CategoryTable from "@/components/page/categories/CategoryTable";
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";
-import { demoCategoriesData } from "@/demoData/categories";
+import { nextFetch } from "@/utils/nextFetch";
 import { Plus } from "lucide-react";
 
 const CategoriesPage = async ({ searchParams }) => {
-  const { searchTerm, page } = await searchParams;
+  const { searchTerm } = await searchParams;
 
   // Build query parameters for the backend request
-  // const queryParams = new URLSearchParams({
-  //   ...(searchTerm && { searchTerm }),
-  //   ...(page && { page }),
-  // });
+  const queryParams = new URLSearchParams({
+    ...(searchTerm && { searchTerm }),
+  });
 
-  // Fetch data from the backend when backend is ready
-  // const res = await myFetch(`/user/users?${queryParams.toString()}`, {
-  //   tags: ["users"],
-  // });
+  const res = await nextFetch(`/job-category?${queryParams.toString()}`, {
+    tags: ["categories"],
+  });
 
   return (
     <div className="w-full min-h-full flex flex-col">
@@ -41,11 +39,7 @@ const CategoriesPage = async ({ searchParams }) => {
 
       {/* category list */}
       <section>
-        <CategoryTable
-          data={demoCategoriesData as never[]}
-          filters={{ searchTerm, page: page || 1 }}
-          meta={{ page: 1, totalPage: 1, total: 12 } as never}
-        />
+        <CategoryTable data={res?.data} filters={{ searchTerm }} />
       </section>
     </div>
   );

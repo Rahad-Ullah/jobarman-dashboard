@@ -1,9 +1,12 @@
 import TermsAndConditions from "@/components/page/terms-and-conditions/TermsAndConditions";
+import { nextFetch } from "@/utils/nextFetch";
 
-const TermsAndConditionsPage = () => {
+const TermsAndConditionsPage = async () => {
+  const res = await nextFetch("/disclaimer?type=terms", { tags: ["terms"] });
+
   return (
     <>
-      <TermsAndConditions />
+      <TermsAndConditions data={res?.data} />
     </>
   );
 };

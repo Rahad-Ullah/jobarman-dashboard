@@ -11,25 +11,56 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { revalidate } from "@/helpers/revalidateHelper";
 import { addCategoryFormSchema } from "@/schemas/formSchemas/category/addCategory";
+import { nextFetch } from "@/utils/nextFetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const AddCategoryForm = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState("");
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof addCategoryFormSchema>>({
     resolver: zodResolver(addCategoryFormSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof addCategoryFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values, file);
+  async function onSubmit(values: z.infer<typeof addCategoryFormSchema>) {
+    if (!file) {
+      setFileError("Icon is required");
+    }
+    const payload = new FormData();
+    payload.append("name", values.name);
+    if (file) payload.append("image", file);
+
+    toast.loading("Creating...", { id: "create-category" });
+    try {
+      const res = await nextFetch("/job-category", {
+        method: "POST",
+        body: payload,
+      });
+      if (res?.success) {
+        toast.success(res?.message as string, {
+          id: "create-category",
+        });
+        revalidate("categories");
+        window.location.reload();
+      } else {
+        toast.error(res?.message || "Failed to create category", {
+          id: "create-category",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -41,6 +72,9 @@ const AddCategoryForm = () => {
             <ImageUpload setFile={setFile} fallbackImage={""} />
           </FormControl>
         </FormItem>
+        {fileError && (
+          <p className="text-red-500 text-sm text-center">{fileError}</p>
+        )}
         <FormField
           control={form.control}
           name="name"

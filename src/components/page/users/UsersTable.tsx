@@ -22,7 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import userTableColumns from "@/components/tableColumns/userTableColumn";
-import { capitalizeSentence } from "@/utils/capitalizeSentence";
 import { userRoles } from "@/constants/user";
 import { IUser } from "@/types/user";
 import { useUpdateMultiSearchParams } from "@/hooks/useUpdateMultiSearchParams";
@@ -30,6 +29,7 @@ import DashboardTable from "@/components/shared/table";
 import TablePagination from "@/components/shared/table-pagination";
 import PageTitle from "@/components/shared/PageTitle";
 import SearchBar from "@/components/shared/SearchBar";
+import { formatEnum } from "@/utils/formatEnum";
 
 // Extract unique roles from data
 const roles = Array.from(new Set(userRoles.map((item) => item.title)));
@@ -78,7 +78,7 @@ const UsersTable = ({ users = [], filters, meta }) => {
                 variant="outline"
                 className="capitalize min-w-32 justify-between"
               >
-                {filters?.role ? `${filters?.role}` : "Role"}{" "}
+                {filters?.role ? `${formatEnum(filters?.role)}` : "Role"}{" "}
                 <ChevronDown className="text-primary" />
               </Button>
             </DropdownMenuTrigger>
@@ -97,7 +97,7 @@ const UsersTable = ({ users = [], filters, meta }) => {
                     updateMultiSearchParams({ role: item, page: null })
                   }
                 >
-                  {capitalizeSentence(item)}
+                  {formatEnum(item)}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

@@ -11,6 +11,7 @@ export interface IUser {
   skills: string[];
   educations: any[];
   workExperiences: any[];
+  resume: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

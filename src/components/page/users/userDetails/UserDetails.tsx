@@ -1,6 +1,8 @@
 import { IMAGE_URL } from "@/config/env-config";
 import { IUser } from "@/types/user";
+import { File } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserDetails = ({ user }: { user: IUser }) => {
   return (
@@ -59,12 +61,16 @@ const UserDetails = ({ user }: { user: IUser }) => {
             <span className="text-sm">{user.bio}</span>
           </p>
         </div>
-        {/* <div className="bg-white p-3 rounded-lg shadow-md">
-          <p className="flex items-center gap-2 cursor-pointer">
+        <div className="bg-white p-3 rounded-lg shadow-md">
+          <Link
+            href={`${IMAGE_URL}${user.resume}`}
+            target="_blank"
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <File className="text-red-500" />
-            <span>License.pdf</span>
-          </p>
-        </div> */}
+            <span>{user.resume?.split("/").pop()}</span>
+          </Link>
+        </div>
       </section>
     </div>
   );

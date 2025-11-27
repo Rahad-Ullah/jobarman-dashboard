@@ -1,11 +1,11 @@
 export const userRoles = [
   {
     id: 1,
-    title: "Recruiter",
+    title: "RECRUITER",
   },
   {
     id: 2,
-    title: "Job Seeker",
+    title: "EMPLOYEE",
   },
 ] as const;
 

@@ -31,8 +31,8 @@ import {
 } from "@/components/ui/input-otp";
 
 const FormSchema = z.object({
-  oneTimeCode: z.string().min(4, {
-    message: "Your one-time password must be 4 digits.",
+  oneTimeCode: z.string().min(6, {
+    message: "Your one-time password must be 6 digits.",
   }),
 });
 export function OtpVerifyForm({
@@ -64,13 +64,20 @@ export function OtpVerifyForm({
       oneTimeCode: Number(values.oneTimeCode),
       email,
     };
-    console.log(payload);
 
     try {
-      //! perform your api call here...
-
-      toast.success("OTP verified successfully", { id: "verify-otp-toast" });
-      router.push(`/reset-password?auth=demoAuthToken`);
+      const res = await nextFetch("/auth/verify-email", {
+        method: "POST",
+        body: payload,
+      });
+      if (res?.success) {
+        toast.success("OTP verified successfully", { id: "verify-otp-toast" });
+        router.push(`/reset-password?auth=${res?.data}`);
+      } else {
+        toast.error(res?.message || "Failed to verify OTP", {
+          id: "verify-otp-toast",
+        });
+      }
     } catch (error: unknown) {
       console.log(error);
     }
@@ -126,7 +133,7 @@ export function OtpVerifyForm({
                         <FormItem>
                           <FormControl>
                             <InputOTP
-                              maxLength={4}
+                              maxLength={6}
                               pattern={REGEXP_ONLY_DIGITS}
                               {...field}
                             >
@@ -135,6 +142,8 @@ export function OtpVerifyForm({
                                 <InputOTPSlot index={1} />
                                 <InputOTPSlot index={2} />
                                 <InputOTPSlot index={3} />
+                                <InputOTPSlot index={4} />
+                                <InputOTPSlot index={5} />
                               </InputOTPGroup>
                             </InputOTP>
                           </FormControl>

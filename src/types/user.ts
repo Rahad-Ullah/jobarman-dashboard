@@ -1,21 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IUser {
   _id: string;
-  firstName: string;
-  lastName: string;
-  userId: string;
-  gender: string;
+  name: string;
+  role: "ADMIN" | "SUPER_ADMIN" | "EMPLOYEE" | "RECRUITER" | string;
   email: string;
+  image: string;
+  status: "active" | "inactive" | string;
+  verified: boolean;
+  isSocialLogin: boolean;
+  skills: string[];
+  educations: any[];
+  workExperiences: any[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  address: string;
+  date_of_birth: string;
+  designation: string;
+  gender: "Male" | "Female" | "Other" | string;
+  language: string;
+  linkedin: string;
+  nationality: string;
   phone: string;
-  role: string;
-  category: string;
-  license: string;
-  photo: string;
-  birthday: string;
+  subscription: string;
   bio: string;
-  location: string;
-  status: string;
-  isVacation: boolean;
-  isVerified: boolean;
-  isBlocked: boolean;
-  isDeleted: boolean;
 }

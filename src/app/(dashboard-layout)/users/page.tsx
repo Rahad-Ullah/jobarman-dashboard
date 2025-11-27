@@ -1,25 +1,25 @@
 import UsersTable from "@/components/page/users/UsersTable";
-import { demoUsersData } from "@/demoData/users";
+import { nextFetch } from "@/utils/nextFetch";
 const UsersPage = async ({ searchParams }) => {
-  const { role } = await searchParams;
+  const { role, searchTerm, page } = await searchParams;
   // Build query parameters for the backend request
-  // const queryParams = new URLSearchParams({
-  //   ...(role && { role }),
-  //   ...(searchTerm && { searchTerm }),
-  //   ...(page && { page }),
-  // });
+  const queryParams = new URLSearchParams({
+    ...(role && { role }),
+    ...(searchTerm && { searchTerm }),
+    ...(page && { page }),
+  });
 
   // Fetch data from the backend when backend is ready
-  // const res = await myFetch(`/user/users?${queryParams.toString()}`, {
-  //   tags: ["users"],
-  // });
+  const res = await nextFetch(`/user?${queryParams.toString()}`, {
+    tags: ["users"],
+  });
 
   return (
     <>
       <UsersTable
-        users={demoUsersData as never[]}
-        meta={{ page: 1, totalPage: 1, total: 12 } as never}
-        filters={{ role }}
+        users={res?.data}
+        meta={res?.pagination}
+        filters={{ role, searchTerm, page }}
       />
     </>
   );

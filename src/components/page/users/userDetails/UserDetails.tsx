@@ -1,14 +1,19 @@
-import { File } from "lucide-react";
+import { IMAGE_URL } from "@/config/env-config";
+import { IUser } from "@/types/user";
 import Image from "next/image";
 
-const UserDetails = () => {
+const UserDetails = ({ user }: { user: IUser }) => {
   return (
     <div className="grid gap-4">
       <section className="flex items-center gap-8 border-b pb-4">
         <figure>
           <Image
-            src="/avatar.png"
-            alt="avatar"
+            src={
+              user?.image?.includes("http")
+                ? user.image
+                : `${IMAGE_URL}${user.image}`
+            }
+            alt="user-image"
             width={80}
             height={80}
             className="rounded-full"
@@ -16,8 +21,8 @@ const UserDetails = () => {
         </figure>
         <div className="flex flex-col justify-between">
           <div>
-            <h1 className="text-3xl font-semibold">Rahad Ullah</h1>
-            <h3 className="text-lg font-medium">Web Developer</h3>
+            <h1 className="text-3xl font-semibold">{user.name}</h1>
+            <h3 className="text-lg font-medium">{user.designation}</h3>
           </div>
         </div>
       </section>
@@ -25,51 +30,41 @@ const UserDetails = () => {
       <section className="grid gap-4 h-fit">
         <div className="bg-white p-2 px-3 rounded-lg shadow-md">
           <p className="flex justify-between items-center gap-4 py-3 border-b">
-            Gender <span>Male</span>
+            Gender <span>{user.gender}</span>
           </p>
           <p className="flex justify-between items-center gap-4 py-3 border-b">
-            Date of Birth <span>01 January 2000</span>
+            Date of Birth <span>{user.date_of_birth?.split("T")[0]}</span>
           </p>
           <p className="flex justify-between items-center gap-4 py-3">
-            Nationality <span>African</span>
+            Nationality <span>{user.nationality}</span>
           </p>
         </div>
         <div className="bg-white p-2 px-3 rounded-lg shadow-md">
           <p className="flex justify-between items-center gap-4 py-3 border-b">
-            Mobile <span>+99123456789</span>
-          </p>
-          <p className="flex justify-between items-center gap-4 py-3 border-b">
-            Whatsapp <span>+99123456789</span>
+            Mobile <span>{user.phone}</span>
           </p>
           <p className="flex justify-between items-center gap-4 py-3">
-            E-mail <span>example@gmail.com</span>
+            E-mail <span>{user.email}</span>
           </p>
         </div>
         <div className="bg-white p-2 px-3 rounded-lg shadow-md">
           <p className="flex justify-between items-center gap-4 py-3">
             Address
-            <span className="text-right">
-              Flat 1204, Al Noor Tower, Sheikh Zayed Road, South Africa.
-            </span>
+            <span className="text-right">{user.address}</span>
           </p>
         </div>
         <div className="bg-white p-2 px-3 rounded-lg shadow-md">
           <p>
             <span className="font-semibold">Overview:</span> <br />{" "}
-            <span className="text-sm">
-              I’m a web developer with over 5 years of experience creating
-              responsive, high-performing websites and web applications. Skilled
-              in both front-end and back-end development, I focus on clean code,
-              seamless user experiences, and reliable performance.
-            </span>
+            <span className="text-sm">{user.bio}</span>
           </p>
         </div>
-        <div className="bg-white p-3 rounded-lg shadow-md">
+        {/* <div className="bg-white p-3 rounded-lg shadow-md">
           <p className="flex items-center gap-2 cursor-pointer">
             <File className="text-red-500" />
             <span>License.pdf</span>
           </p>
-        </div>
+        </div> */}
       </section>
     </div>
   );

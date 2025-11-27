@@ -27,11 +27,7 @@ const columns: ColumnDef<IUser>[] = [
     header: "User Name",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return (
-        <p className="px-2">
-          {item?.firstName} {item?.lastName}
-        </p>
-      );
+      return <p className="px-2 capitalize">{item?.name}</p>;
     },
   },
   {
@@ -43,11 +39,11 @@ const columns: ColumnDef<IUser>[] = [
     },
   },
   {
-    accessorKey: "location",
-    header: "Location",
+    accessorKey: "address",
+    header: "Address",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return <p className="px-2">{item?.location}</p>;
+      return <p className="px-2">{item?.address || "-"}</p>;
     },
   },
   {
@@ -55,7 +51,7 @@ const columns: ColumnDef<IUser>[] = [
     header: "Role",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return <p className="px-2">{item?.role}</p>;
+      return <p className="px-2 capitalize">{item?.role?.toLowerCase()}</p>;
     },
   },
   {
@@ -76,10 +72,10 @@ const columns: ColumnDef<IUser>[] = [
             dialogTitle=""
             className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <UserDetails />
+            <UserDetails user={item} />
           </Modal>
           {/* Block or unblock */}
-          {item.isBlocked ? (
+          {item.status === "inactive" ? (
             <DeleteModal
               triggerBtn={
                 <Button

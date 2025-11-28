@@ -1,4 +1,4 @@
-export const formatEnum = (enumStr: string) =>
+export const formatEnum = (enumStr: string = "") =>
   enumStr
     .toLowerCase()
     .replace(/_/g, " ")

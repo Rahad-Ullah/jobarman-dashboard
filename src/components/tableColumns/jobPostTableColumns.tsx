@@ -6,9 +6,8 @@ import { Eye, Trash } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import { IJobPost } from "@/types/job-post";
-import { Badge } from "../ui/badge";
-import { JobPostStatus } from "@/constants/job-post";
 import JobPostDetails from "../page/job-posts/JobPostDetails";
+import { formatEnum } from "@/utils/formatEnum";
 
 // handle delete
 const handleDelete = async () => {
@@ -21,8 +20,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
     accessorKey: "id",
     header: "SL",
     cell: ({ row }) => {
-      const item = row.original as IJobPost;
-      return <p className="px-2">{item?.SL}</p>;
+      return <p className="px-2">{row.index + 1}</p>;
     },
   },
   {
@@ -30,7 +28,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
     header: "Company Name",
     cell: ({ row }) => {
       const item = row.original as IJobPost;
-      return <p className="px-2">{item?.companyName}</p>;
+      return <p className="px-2">{item?.recruiter?.name}</p>;
     },
   },
   {
@@ -38,15 +36,23 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
     header: "Email",
     cell: ({ row }) => {
       const item = row.original as IJobPost;
-      return <p className="px-2 lowercase">{item?.email}</p>;
+      return <p className="px-2 lowercase">{item?.recruiter?.email}</p>;
     },
   },
   {
-    accessorKey: "contact",
-    header: "Contact",
+    accessorKey: "jobType",
+    header: "Job Type",
     cell: ({ row }) => {
       const item = row.original as IJobPost;
-      return <p className="px-2 lowercase">{item?.contact}</p>;
+      return <p className="px-2">{formatEnum(item?.job_type || "")}</p>;
+    },
+  },
+  {
+    accessorKey: "jobLevel",
+    header: "Job Level",
+    cell: ({ row }) => {
+      const item = row.original as IJobPost;
+      return <p className="px-2">{formatEnum(item?.job_level || "")}</p>;
     },
   },
   {
@@ -54,7 +60,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
     header: "End Date",
     cell: ({ row }) => {
       const item = row.original as IJobPost;
-      return <p className="px-2 lowercase">{item?.endDate}</p>;
+      return <p className="px-2 lowercase">{item?.deadline?.split("T")[0]}</p>;
     },
   },
   {
@@ -62,23 +68,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
     header: () => <div>Status</div>,
     cell: ({ row }) => {
       const item = row.original as IJobPost;
-      return (
-        <Badge
-          className={`capitalize font-medium text-white shadow-none rounded-full py-1.5 w-full flex justify-center ${
-            item?.status === JobPostStatus.OPEN
-              ? "bg-green-50 text-green-500 border-green-400"
-              : item?.status === JobPostStatus.CLOSED
-              ? "bg-rose-50 text-rose-500 border-rose-400"
-              : item?.status === JobPostStatus.PENDING
-              ? "bg-purple-50 text-purple-500 border-purple-400"
-              : item?.status === JobPostStatus.REJECTED
-              ? "bg-red-50 text-red-500 border-red-400"
-              : ""
-          }`}
-        >
-          {item?.status}
-        </Badge>
-      );
+      return <p className="capitalize px-2">{item?.status}</p>;
     },
   },
   {
@@ -99,7 +89,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
             dialogTitle=""
             className="max-w-[50vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-6"
           >
-            <JobPostDetails />
+            <JobPostDetails item={item} />
           </Modal>
 
           <DeleteModal
@@ -109,7 +99,7 @@ const jobPostTableColumns: ColumnDef<IJobPost>[] = [
               </Button>
             }
             title="Are you sure to delete this job post?"
-            itemId={item?.SL?.toString() || ""}
+            itemId={item?._id?.toString()}
             action={handleDelete}
           />
         </div>

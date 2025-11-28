@@ -2,23 +2,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Calendar,
-  GraduationCap,
-  Layers,
-  Timer,
-  WalletMinimal,
-} from "lucide-react";
+import { Calendar, Layers, Timer } from "lucide-react";
 import Image from "next/image";
+import { IJobPost } from "@/types/job-post";
+import { IMAGE_URL } from "@/config/env-config";
+import { formatEnum } from "@/utils/formatEnum";
 
-export default function JobPostDetails() {
+export default function JobPostDetails({ item }: { item: IJobPost }) {
   return (
     <div className="overflow-hidden">
       {/* Top Banner */}
       <section>
         <Image
-          src="https://t3.ftcdn.net/jpg/03/58/14/84/360_F_358148466_X8U31rOEi3WB8jeD21Phc3K8DiR1XsFu.jpg"
-          alt="Job Post Banner"
+          src={
+            item?.thumbnail?.includes("http")
+              ? item.thumbnail
+              : `${IMAGE_URL}${item?.thumbnail}`
+          }
+          alt="banner"
           width={1200}
           height={300}
           className="w-auto max-h-[400px] mx-auto rounded-md"
@@ -29,29 +30,33 @@ export default function JobPostDetails() {
       <section className="flex gap-4 py-4 pt-12">
         <figure>
           <Image
-            src="https://img.freepik.com/premium-vector/white-background-with-black-blue-logo-that-says-u_697205-872.jpg?semt=ais_hybrid&w=740&q=80"
-            alt="Job Post Banner"
+            src={
+              item?.recruiter?.image?.includes("http")
+                ? item.recruiter.image
+                : `${IMAGE_URL}${item?.recruiter.image}`
+            }
+            alt="recruiter image"
             width={60}
             height={60}
             className="size-16 rounded-full border p-1"
           />
         </figure>
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold">Senior UX Designer</h3>
+          <h3 className="text-xl font-semibold">{item?.title}</h3>
           <div className="flex items-center gap-2">
-            <p className="text-sm text-gray-500">at UX Zone</p>
+            <p className="text-sm text-gray-500">at {item?.recruiter?.name}</p>
             <div className="flex gap-2">
               <Badge
                 variant="outline"
                 className="text-green-600 border-green-600"
               >
-                Full-Time
+                {formatEnum(item?.job_level)}
               </Badge>
               <Badge
                 variant="outline"
                 className="text-orange-500 border-orange-500"
               >
-                Onsite
+                {formatEnum(item?.job_type)}
               </Badge>
             </div>
           </div>
@@ -107,11 +112,13 @@ export default function JobPostDetails() {
           <div className="grid grid-cols-2 text-sm text-gray-700 border p-5 rounded-md">
             <div>
               <h4 className="font-semibold">Salary (USD)</h4>
-              <p>$300 - $500/month</p>
+              <p>
+                ${item.min_salary} - ${item.max_salary}/month
+              </p>
             </div>
             <div className="border-l pl-4">
               <h4 className="font-semibold">Experience Level</h4>
-              <p>Entry Level</p>
+              <p>{item.experience_level}</p>
             </div>
           </div>
           <div className="grid gap-4 text-sm border p-5 rounded-md">
@@ -119,26 +126,37 @@ export default function JobPostDetails() {
             <div className="grid grid-cols-3 gap-5 text-gray-700">
               <div className="flex flex-col gap-1">
                 <Calendar className="text-primary mb-2" />
-                Job Posted: <span className="font-semibold">01 Aug, 2023</span>
+                Job Posted:{" "}
+                <span className="font-semibold">
+                  {item?.createdAt?.split("T")[0]}
+                </span>
               </div>
               <div className="flex flex-col gap-1">
                 <Timer className="text-primary mb-2" />
                 Job Expiry:
-                <span className="font-semibold">31 Aug, 2023</span>
+                <span className="font-semibold">
+                  {item?.deadline?.split("T")[0]}
+                </span>
               </div>
               <div className="flex flex-col gap-1">
                 <Layers className="text-primary mb-2" />
-                Job Level: <span className="font-semibold">Entry Level</span>
+                Job Level:
+                <span className="font-semibold">
+                  {formatEnum(item?.job_level)}
+                </span>
               </div>
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <WalletMinimal className="text-primary mb-2" />
-                Salary: <span className="font-semibold">$50K - $80K/month</span>
+                Salary:{" "}
+                <span className="font-semibold">
+                  ${item?.min_salary} - ${item?.max_salary}/month
+                </span>
               </div>
               <div className="flex flex-col gap-1">
                 <GraduationCap className="text-primary mb-2" />
-                Education:{" "}
+                Education:
                 <span className="font-semibold">Graduate Degree</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

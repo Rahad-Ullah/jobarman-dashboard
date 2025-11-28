@@ -13,6 +13,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { nextFetch } from "@/utils/nextFetch";
+import toast from "react-hot-toast";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 const faqSchema = z.object({
   question: z.string().min(5, "Question must be at least 5 characters"),
@@ -30,10 +33,22 @@ export default function AddFaqForm() {
     },
   });
 
-  const handleSubmit = (values: FaqFormValues) => {
-    // Placeholder for form submission logic
-    console.log("New FAQ Submitted:", values);
-    form.reset();
+  const handleSubmit = async (values: FaqFormValues) => {
+    toast.loading("Creating...", { id: "create-faq" });
+
+    const res = await nextFetch("/faq", {
+      method: "POST",
+      body: values,
+    });
+
+    if (res?.success) {
+      toast.success(res?.message as string, { id: "create-faq" });
+      revalidate("faqs");
+      form.reset();
+      window.location.reload();
+    } else {
+      toast.error(res?.message || "Failed to create FAQ", { id: "create-faq" });
+    }
   };
 
   return (

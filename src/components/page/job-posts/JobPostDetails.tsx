@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Layers, Timer } from "lucide-react";
+import { Calendar, Layers, MapPinIcon, Timer } from "lucide-react";
 import Image from "next/image";
 import { IJobPost } from "@/types/job-post";
 import { IMAGE_URL } from "@/config/env-config";
@@ -66,45 +65,17 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
       {/* Job Details */}
       <section className="grid grid-cols-[50%_auto] gap-6 py-6">
         <div>
-          {/* Description */}
-          <div>
-            <h4 className="font-semibold mb-1">Job Description</h4>
-            <p className="text-sm text-gray-700">
-              We are a Shopify Plus Agency that partners with brands to help
-              them grow. We specialize in creating exceptional digital
-              experiences for eCommerce brands— including websites, landing
-              pages, and digital products. You’ll translate specs into clean,
-              fast, conversion-optimized designs and collaborate with
-              developers.
-            </p>
-          </div>
-
-          {/* Requirements */}
-          <div>
-            <h4 className="font-semibold mb-1">Requirements</h4>
-            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-              <li>Strong reasoning and analytical skills</li>
-              <li>Passion for creating exceptional digital experiences</li>
-              <li>Experience in designing for eCommerce</li>
-              <li>Ability to work independently and with smaller teams</li>
-              <li>Proficiency in Figma, Adobe XD, Illustrator</li>
-            </ul>
-          </div>
-
-          {/* Perks */}
-          <div>
-            <h4 className="font-semibold mb-1">Perks</h4>
-            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-              <li>Monthly team dinner</li>
-              <li>Yearly trip</li>
-              <li>Performance-based bonuses</li>
-              <li>Paid leaves</li>
-              <li>Annual increments</li>
-              <li>Birthday celebration</li>
-              <li>End-of-week lunch</li>
-              <li>Extra day off for birthdays</li>
-            </ul>
-          </div>
+          <h4 className="font-semibold">Job Description</h4>
+          <article
+            className="prose prose-slate"
+            dangerouslySetInnerHTML={{ __html: item?.description }}
+          />
+          <h4 className="font-semibold mt-4">Requirements</h4>
+          <ul className="list-disc list-inside">
+            {item?.required_skills?.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            ))}
+          </ul>
         </div>
 
         {/* Overview */}
@@ -117,8 +88,10 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
               </p>
             </div>
             <div className="border-l pl-4">
-              <h4 className="font-semibold">Experience Level</h4>
-              <p>{item.experience_level}</p>
+              <h4 className="font-semibold flex items-center gap-1">
+                <MapPinIcon size={18} /> Job Location
+              </h4>
+              <p>{item.location}</p>
             </div>
           </div>
           <div className="grid gap-4 text-sm border p-5 rounded-md">
@@ -151,18 +124,12 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
                 <span className="font-semibold">
                   ${item?.min_salary} - ${item?.max_salary}/month
                 </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <GraduationCap className="text-primary mb-2" />
-                Education:
-                <span className="font-semibold">Graduate Degree</span>
               </div> */}
             </div>
           </div>
         </div>
       </section>
-      <section>
-        {/* Action Buttons */}
+      {/* <section>
         <div className="flex justify-center gap-4 pt-4">
           <Button variant="destructive" className="px-10">
             Reject
@@ -171,7 +138,7 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
             Accept
           </Button>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

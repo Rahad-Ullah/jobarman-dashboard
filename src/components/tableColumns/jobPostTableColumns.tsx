@@ -8,10 +8,29 @@ import Modal from "../modals/Modal";
 import { IJobPost } from "@/types/job-post";
 import JobPostDetails from "../page/job-posts/JobPostDetails";
 import { formatEnum } from "@/utils/formatEnum";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // handle delete
-const handleDelete = async () => {
-  // perform api here...
+const handleDelete = async (id: string) => {
+  toast.loading("Deleting...", { id: "delete-job-post" });
+  try {
+    const res = await nextFetch(`/job-post/${id}`, {
+      method: "DELETE",
+    });
+    if (res?.success) {
+      toast.success(res?.message as string, { id: "delete-job-post" });
+      revalidate("job-posts");
+      window.location.reload();
+    } else {
+      toast.error(res?.message || "Failed to delete job post", {
+        id: "delete-job-post",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // table column definition

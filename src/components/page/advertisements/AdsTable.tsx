@@ -90,7 +90,10 @@ const AdsTable = ({ data = [], filters, meta }) => {
                 <DropdownMenuItem
                   key={item}
                   onClick={() =>
-                    updateMultiSearchParams({ status: item, page: null })
+                    updateMultiSearchParams({
+                      status: item?.toLowerCase(),
+                      page: null,
+                    })
                   }
                 >
                   {capitalizeSentence(item)}

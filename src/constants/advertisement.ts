@@ -1,8 +1,1 @@
-export const adStatusTypes = [
-  "Approved",
-  "Rejected",
-  "Pending",
-  "Processing",
-  "Complete",
-  "Overdue",
-];
+export const adStatusTypes = ["Approved", "Rejected", "Pending", "Complete"];

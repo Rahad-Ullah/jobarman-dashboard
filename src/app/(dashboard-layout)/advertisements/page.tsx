@@ -1,30 +1,28 @@
 import AdsTable from "@/components/page/advertisements/AdsTable";
-import { demoAdvertisementsData } from "@/demoData/advertisements";
+import { nextFetch } from "@/utils/nextFetch";
 
 const AdsPage = async ({ searchParams }) => {
-  const { searchTerm, page, status } = await searchParams;
+  const { page, status } = await searchParams;
 
   // Build query parameters for the backend request
-  // const queryParams = new URLSearchParams({
-  //   ...(searchTerm && { searchTerm }),
-  //   ...(page && { page }),
-  // });
+  const queryParams = new URLSearchParams({
+    ...(status && { status }),
+    ...(page && { page }),
+  });
 
   // Fetch data from the backend when backend is ready
-  // const res = await myFetch(`/user/users?${queryParams.toString()}`, {
-  //   tags: ["users"],
-  // });
+  const res = await nextFetch(`/spotlight?${queryParams.toString()}`, {
+    tags: ["advertisements"],
+  });
 
   return (
-    <div className="w-full min-h-full flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* category list */}
-      <section>
-        <AdsTable
-          data={demoAdvertisementsData as never[]}
-          filters={{ searchTerm, status, page } as never}
-          meta={{ page: 1, totalPage: 1, total: 12 } as never}
-        />
-      </section>
+      <AdsTable
+        data={res?.data}
+        filters={{ status, page } as never}
+        meta={res?.pagination}
+      />
     </div>
   );
 };

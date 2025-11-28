@@ -5,8 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Trash } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
-import { IAdvertisement } from "@/types/advertisement";
 import AdsDetails from "../page/advertisements/AdsDetails";
+import { IAdvertisement } from "@/types/advertisement";
 
 // handle delete
 const handleDelete = async () => {
@@ -19,8 +19,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     accessorKey: "id",
     header: "SL",
     cell: ({ row }) => {
-      const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?._id}</p>;
+      return <p className="px-2">{row.index + 1}</p>;
     },
   },
   {
@@ -28,7 +27,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     header: "Organization Name",
     cell: ({ row }) => {
       const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?.organizationName}</p>;
+      return <p className="px-2">{item?.organization_name}</p>;
     },
   },
   {
@@ -36,7 +35,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     header: "Ad Type",
     cell: ({ row }) => {
       const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?.adType}</p>;
+      return <p className="px-2">{item?.service_type}</p>;
     },
   },
   {
@@ -44,7 +43,11 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     header: "Start Date",
     cell: ({ row }) => {
       const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?.startDate}</p>;
+      return (
+        <p className="px-2">
+          {item?.start_date?.split("T")[0]} {item?.start_time}
+        </p>
+      );
     },
   },
   {
@@ -52,7 +55,11 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     header: "End Date",
     cell: ({ row }) => {
       const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?.endDate}</p>;
+      return (
+        <p className="px-2">
+          {item?.end_date?.split("T")[0]} {item?.end_time}
+        </p>
+      );
     },
   },
   {
@@ -60,7 +67,15 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
     header: "Payment Status",
     cell: ({ row }) => {
       const item = row.original as IAdvertisement;
-      return <p className="px-2">{item?.paymentStatus}</p>;
+      return <p className="px-2">{item?.pricing}</p>;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const item = row.original as IAdvertisement;
+      return <p className="px-2 capitalize">{item?.status}</p>;
     },
   },
   {

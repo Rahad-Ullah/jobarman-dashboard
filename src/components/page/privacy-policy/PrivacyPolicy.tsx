@@ -3,19 +3,38 @@
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { revalidate } from "@/helpers/revalidateHelper";
+import { nextFetch } from "@/utils/nextFetch";
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 // Dynamically import JoditEditor with SSR disabled
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = ({ data }) => {
   const editor = useRef(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(data?.content || "");
 
-  const handleUpdate = () => {
-    console.log("Updated Content:", content);
-    // Add your update logic here
+  const handleUpdate = async () => {
+    toast.loading("Updating...", { id: "update-privacy" });
+    try {
+      const res = await nextFetch("/disclaimer", {
+        method: "POST",
+        body: { type: "privacy", content },
+      });
+
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "update-privacy" });
+        revalidate("privacy");
+      } else {
+        toast.error(res?.message || "Failed to update privacy", {
+          id: "update-privacy",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

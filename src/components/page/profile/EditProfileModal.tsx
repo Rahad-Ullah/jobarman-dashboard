@@ -35,9 +35,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { userGenders } from "@/constants/user";
+import { IMAGE_URL } from "@/config/env-config";
+import { revalidate } from "@/helpers/revalidateHelper";
+import { nextFetch } from "@/utils/nextFetch";
 
 const EditProfileModal = ({ user }) => {
-  const [file, setFile] = useState<File | string | null>(user.image);
+  const [file, setFile] = useState<File | string | null>(null);
 
   // 2. Define your form.
   const form = useForm<z.infer<typeof editProfileFormSchema>>({
@@ -50,14 +53,28 @@ const EditProfileModal = ({ user }) => {
     toast.loading("Updating...", {
       id: "update-profile",
     });
-    console.log(values, file);
+    const payload = new FormData();
+    if (file) payload.append("image", file);
+    for (const key in values) {
+      payload.append(key, values[key]);
+    }
 
     try {
-      // perform the API call to update the user profile
-
-      toast.error("Failed to update profile", {
-        id: "update-profile",
+      const res = await nextFetch(`/user/profile`, {
+        method: "PATCH",
+        body: payload,
       });
+      if (res?.success) {
+        toast.success(res?.message as string, {
+          id: "update-profile",
+        });
+        revalidate("profile");
+        window.location.reload();
+      } else {
+        toast.error(res?.message || "Failed to update", {
+          id: "update-profile",
+        });
+      }
     } catch (error) {
       toast.error("Failed to update", {
         id: "update-profile",
@@ -81,7 +98,14 @@ const EditProfileModal = ({ user }) => {
         </DialogHeader>
         <div className="grid gap-4">
           <Label>Upload Profile Image</Label>
-          <ImageUpload setFile={setFile} fallbackImage={user.image} />
+          <ImageUpload
+            setFile={setFile}
+            fallbackImage={
+              user.image?.includes("http")
+                ? user.image
+                : `${IMAGE_URL}${user.image}`
+            }
+          />
         </div>
         <section>
           <Form {...form}>
@@ -89,35 +113,16 @@ const EditProfileModal = ({ user }) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 lg:space-y-0 lg:grid gap-6"
             >
-              {/* First Name Field */}
+              {/* Name Field */}
               <FormField
                 control={form.control}
-                name="firstName"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="John"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Last Name Field */}
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Doe"
+                        placeholder="John Doe"
                         {...field}
                         value={field.value ?? ""}
                       />

@@ -10,8 +10,7 @@ import { z } from "zod";
 
 // zod validation schema for add user form
 export const editProfileFormSchema = z.object({
-  firstName: z.string().optional().nullable(),
-  lastName: z.string().optional().nullable(),
+  name: z.string().optional().nullable(),
   gender: z.string().optional().nullable(),
   birthday: z.string().optional().nullable(),
   email: z.string().email().optional().nullable(),

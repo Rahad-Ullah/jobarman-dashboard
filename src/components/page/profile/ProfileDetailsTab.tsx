@@ -1,5 +1,6 @@
 import Image from "next/image";
 import EditProfileModal from "./EditProfileModal";
+import { IMAGE_URL } from "@/config/env-config";
 
 const ProfileDetailsTab = ({ user }) => {
   return (
@@ -11,7 +12,11 @@ const ProfileDetailsTab = ({ user }) => {
         </div>
         <div className="flex flex-col items-center gap-2">
           <Image
-            src={user.image}
+            src={
+              user.image?.includes("http")
+                ? user.image
+                : `${IMAGE_URL}${user.image}`
+            }
             alt="profile"
             width={200}
             height={200}
@@ -22,9 +27,7 @@ const ProfileDetailsTab = ({ user }) => {
         <div className="grid grid-cols-2 w-full max-w-3xl gap-6">
           <div className="grid gap-2">
             <p className="text-[#A1A1A1]">Name</p>
-            <p className="text-[#5C5C5C]">
-              {user.firstName} {user.lastName}
-            </p>
+            <p className="text-[#5C5C5C]">{user.name}</p>
           </div>
           <div className="grid gap-2">
             <p className="text-[#A1A1A1]">Email</p>
@@ -32,11 +35,11 @@ const ProfileDetailsTab = ({ user }) => {
           </div>
           <div className="grid gap-2">
             <p className="text-[#A1A1A1]">Phone No</p>
-            <p className="text-[#5C5C5C]">{user.phone}</p>
+            <p className="text-[#5C5C5C]">{user.phone || "N/A"}</p>
           </div>
           <div className="grid gap-2">
             <p className="text-[#A1A1A1]">Gender</p>
-            <p className="text-[#5C5C5C]">{user.gender}</p>
+            <p className="text-[#5C5C5C]">{user.gender || "N/A"}</p>
           </div>
         </div>
       </section>

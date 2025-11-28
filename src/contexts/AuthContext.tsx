@@ -53,6 +53,7 @@ export const AuthProvider = ({
   const logout = () => {
     setUser(null);
     deleteCookie("accessToken");
+    deleteCookie("refreshToken");
     deleteCookie("user");
     router.push("/login");
   };

@@ -99,9 +99,9 @@ const Notifications = ({ data, meta }: { data: any[]; meta: any }) => {
               </span>
               <div>
                 <h1
-                  className={`text-secondary ${
+                  className={`${
                     notification?.isRead
-                      ? "font-medium text-gray-500"
+                      ? "font-medium text-gray-600"
                       : "font-semibold"
                   }`}
                 >

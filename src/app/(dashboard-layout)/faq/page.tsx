@@ -10,7 +10,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { demoFaqData } from "@/demoData/faqs";
+import { nextFetch } from "@/utils/nextFetch";
 import { ChevronDown, Pencil, Plus, Trash2 } from "lucide-react";
 
 type FAQ = {
@@ -24,7 +24,10 @@ const handleDelete = async (itemId: string) => {
   console.log(`Deleting FAQ with id: ${itemId}`);
 };
 
-export default function FaqSection() {
+export default async function FaqSection() {
+  const res = await nextFetch("/faq", { tags: ["faqs"] });
+  const faqs = res?.data;
+
   return (
     <div>
       <section className="flex justify-between items-center gap-8 px-6 py-2">
@@ -44,7 +47,7 @@ export default function FaqSection() {
       </section>
       <section className="p-6">
         <Accordion type="single" collapsible className="space-y-4">
-          {demoFaqData.map((faq: FAQ, idx: number) => (
+          {faqs.map((faq: FAQ, idx: number) => (
             <AccordionItem
               key={idx}
               value={`item-${idx}`}

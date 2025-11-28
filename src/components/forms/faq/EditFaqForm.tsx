@@ -13,6 +13,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 const faqSchema = z.object({
   question: z.string().min(5, "Question must be at least 5 characters"),
@@ -21,20 +24,28 @@ const faqSchema = z.object({
 
 type FaqFormValues = z.infer<typeof faqSchema>;
 
-type Props = {
-  initialFaq: FaqFormValues;
-};
-
-export default function EditFaqForm({ initialFaq }: Props) {
+export default function EditFaqForm({ initialFaq }) {
   const form = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
     defaultValues: initialFaq,
   });
 
-  const handleSubmit = (values: FaqFormValues) => {
-    // Placeholder for form submission logic
-    console.log("FAQ Edited:", values);
-    form.reset();
+  const handleSubmit = async (values: FaqFormValues) => {
+    toast.loading("Updating...", { id: "edit-faq" });
+
+    const res = await nextFetch(`/faq/${initialFaq._id}`, {
+      method: "PATCH",
+      body: values,
+    });
+    console.log(res);
+
+    if (res?.success) {
+      toast.success(res?.message as string, { id: "edit-faq" });
+      revalidate("faqs");
+      window.location.reload();
+    } else {
+      toast.error(res?.message || "Failed to create FAQ", { id: "edit-faq" });
+    }
   };
 
   return (

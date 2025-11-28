@@ -1,17 +1,21 @@
-import { ticketPriorities, ticketStatuses } from "@/constants/support";
-
-export type TicketPriority = (typeof ticketPriorities)[number];
-export type TicketStatus = (typeof ticketStatuses)[number];
-
 export interface ISupportTicket {
-  _id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  priority: TicketPriority;
-  status: TicketStatus;
+  _id: string;
+  reason: string;
+  description: string;
+  user: ISupportUser;
+  images: string[];
+  docs: string[];
+  status: "pending" | "resolved" | string;
   createdAt: string;
+  updatedAt: string;
+  supportId: string;
+  __v: number;
+  reply: string;
+}
+
+export interface ISupportUser {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
 }

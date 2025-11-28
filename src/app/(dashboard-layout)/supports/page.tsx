@@ -1,18 +1,27 @@
 import SupportTable from "@/components/page/support/SupportTable";
-import { demoSupportTicketsData } from "@/demoData/support";
+import { nextFetch } from "@/utils/nextFetch";
 const SupportPage = async ({ searchParams }) => {
-  const { status } = await searchParams;
+  const { status, searchTerm, page } = await searchParams;
 
-  const tickets = demoSupportTicketsData?.filter(
-    (item) => !status || item?.status === status
-  );
+  // Build query parameters for the backend request
+  const queryParams = new URLSearchParams({
+    ...(status && { status }),
+    ...(searchTerm && { searchTerm }),
+    ...(page && { page }),
+  });
+
+  const res = await nextFetch(`/support?${queryParams.toString()}`, {
+    tags: ["supports"],
+  });
+
+  const tickets = res?.data;
 
   return (
     <section className="h-full">
       <SupportTable
-        tickets={tickets as never[]}
-        meta={{ page: 1, totalPage: 1, total: 12 }}
-        filters={{ status }}
+        tickets={tickets}
+        meta={res?.pagination}
+        filters={{ status, searchTerm }}
       />
     </section>
   );

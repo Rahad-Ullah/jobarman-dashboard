@@ -66,13 +66,13 @@ const SupportTable = ({ tickets = [], filters, meta }) => {
         <PageTitle>Help & Support</PageTitle>
         {/* right side filters */}
         <div className="flex flex-wrap items-center gap-4">
-          <SearchBar />
+          <SearchBar placeholder="Search by name or email" />
           <Select
             defaultValue={filters?.status}
             onValueChange={(value) =>
               updateMultiSearchParams({
                 page: null,
-                status: value === "All" ? null : value,
+                status: value === "All" ? null : value?.toLowerCase(),
               })
             }
           >

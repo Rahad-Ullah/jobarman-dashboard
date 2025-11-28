@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // Define the form schema
 const changePasswordSchema = z
@@ -52,12 +54,19 @@ const ChangePasswordTab = () => {
   const onSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
     toast.loading("Updating password...", { id: "change-password" });
     try {
-      console.log(values);
-      //! perform the API call to update the password
-
-      toast.success("Password updated successfully!", {
-        id: "change-password",
+      const res = await nextFetch("/auth/change-password", {
+        method: "POST",
+        body: values,
       });
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "change-password" });
+        revalidate("profile");
+        form.reset();
+      } else {
+        toast.error(res?.message || "Failed to update password.", {
+          id: "change-password",
+        });
+      }
     } catch (error) {
       toast.error("Failed to update password.", { id: "change-password" });
       console.error(error);

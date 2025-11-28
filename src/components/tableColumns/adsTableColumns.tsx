@@ -2,16 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Trash } from "lucide-react";
-import DeleteModal from "../modals/DeleteModal";
+import { Eye } from "lucide-react";
 import Modal from "../modals/Modal";
 import AdsDetails from "../page/advertisements/AdsDetails";
 import { IAdvertisement } from "@/types/advertisement";
-
-// handle delete
-const handleDelete = async () => {
-  // perform api here...
-};
 
 // table column definition
 const adsTableColumns: ColumnDef<IAdvertisement>[] = [
@@ -94,11 +88,11 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
               </Button>
             }
             dialogTitle=""
-            className="max-w-[35vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
+            className="max-w-[35vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-8 bg-secondary-foreground"
           >
-            <AdsDetails data={item} />
+            <AdsDetails item={item} />
           </Modal>
-          <DeleteModal
+          {/* <DeleteModal
             triggerBtn={
               <Button variant={"ghost"} size={"icon"} className="text-red-500">
                 <Trash />
@@ -107,7 +101,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
             title="Are you sure to delete this item?"
             itemId={item?._id?.toString() || ""}
             action={handleDelete}
-          />
+          /> */}
         </div>
       );
     },

@@ -96,7 +96,7 @@ const adsTableColumns: ColumnDef<IAdvertisement>[] = [
             dialogTitle=""
             className="max-w-[35vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <AdsDetails />
+            <AdsDetails data={item} />
           </Modal>
           <DeleteModal
             triggerBtn={

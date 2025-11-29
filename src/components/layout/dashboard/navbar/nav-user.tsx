@@ -21,18 +21,14 @@ import Link from "next/link";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { formatEnum } from "@/utils/formatEnum";
 import { IMAGE_URL } from "@/config/env-config";
+import { useEffect } from "react";
+import { IUser } from "@/types/user";
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    role: string;
-    image: string;
-  };
-}) {
-  const { logout } = useAuthContext();
+export function NavUser({ user }: { user: IUser | undefined }) {
+  const { logout, setUser } = useAuthContext();
+  useEffect(() => {
+    setUser(JSON.stringify(user));
+  });
   return (
     <SidebarMenu className="w-fit pr-4">
       <SidebarMenuItem>
@@ -44,7 +40,11 @@ export function NavUser({
             >
               <Avatar className="size-10 rounded-lg">
                 <AvatarImage
-                  src={user?.image?.includes("http") ? user.image : `${IMAGE_URL}${user?.image}`}
+                  src={
+                    user?.image?.includes("http")
+                      ? user.image
+                      : `${IMAGE_URL}${user?.image}`
+                  }
                   alt="profile"
                   className="rounded-full relative"
                 />
@@ -70,7 +70,14 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.image?.includes("http") ? user.image : `${IMAGE_URL}${user?.image}`} alt="profile" />
+                  <AvatarImage
+                    src={
+                      user?.image?.includes("http")
+                        ? user.image
+                        : `${IMAGE_URL}${user?.image}`
+                    }
+                    alt="profile"
+                  />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">

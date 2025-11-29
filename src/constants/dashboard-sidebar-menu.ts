@@ -11,6 +11,7 @@ import {
   ShieldUser,
   UserRound,
   UsersRound,
+  UserStar,
 } from "lucide-react";
 
 export const sidebarMenu = {
@@ -41,14 +42,19 @@ export const sidebarMenu = {
       icon: ChartBarStacked,
     },
     {
-      title: "Advertisement Management",
+      title: "Advertisements",
       url: "/advertisements",
       icon: Megaphone,
     },
     {
-      title: "Subscription Management",
+      title: "Subscription Plans",
       url: "/subscriptions",
       icon: BadgeCheck,
+    },
+    {
+      title: "Subscribers",
+      url: "/subscribers",
+      icon: UserStar,
     },
     {
       title: "Admin Management",

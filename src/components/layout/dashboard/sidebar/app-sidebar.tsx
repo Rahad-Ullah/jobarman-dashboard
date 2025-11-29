@@ -16,13 +16,26 @@ import { LogOut } from "lucide-react";
 import Modal from "@/components/modals/Modal";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { IAdminUser } from "@/components/forms/admin/EditAdminForm";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // const { logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
+  const profile: IAdminUser = JSON.parse(user as string);
+  const allowedRoutes = sidebarMenu.navMain.filter((item) =>
+    profile?.adminaccess?.includes(item.url)
+  );
+
   return (
     <Sidebar collapsible="none" variant="sidebar" {...props}>
       <SidebarContent>
-        <NavMain items={sidebarMenu.navMain} />
+        <NavMain
+          items={
+            profile?.role === "SUPER_ADMIN"
+              ? sidebarMenu.navMain
+              : allowedRoutes
+          }
+        />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -38,7 +51,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               dialogTitle="Are You Sure To Log Out?"
             >
               <div className="flex gap-2 justify-center mt-8">
-                <Button className="px-12 rounded-md" variant={"destructive"}>
+                <Button
+                  onClick={logout}
+                  className="px-12 rounded-md"
+                  variant={"destructive"}
+                >
                   Yes
                 </Button>
                 <DialogClose asChild>

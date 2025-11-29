@@ -5,9 +5,9 @@ import { cookies } from "next/headers";
 const getProfile = async () => {
   const token = (await cookies()).get("accessToken")?.value;
 
-  const res = await fetch(`${process.env.BASE_URL}/user/profile`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
     next: {
-      tags: ["user-profile"],
+      tags: ["profile"],
     },
     headers: {
       Authorization: `Bearer ${token}`,

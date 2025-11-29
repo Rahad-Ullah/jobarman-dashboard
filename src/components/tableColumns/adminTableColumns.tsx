@@ -8,10 +8,29 @@ import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import { IUser } from "@/types/user";
 import EditAdminForm from "../forms/admin/EditAdminForm";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // handle delete
-const handleDelete = async () => {
-  // perform api here...
+const handleDelete = async (id: string) => {
+  toast.loading("Deleting...", { id: "delete-admin" });
+  try {
+    const res = await nextFetch(`/admin/${id}`, {
+      method: "DELETE",
+    });
+    if (res?.success) {
+      toast.success(res?.message as string, { id: "delete-admin" });
+      revalidate("admins");
+      window.location.reload();
+    } else {
+      toast.error(res?.message || "Failed to delete admin", {
+        id: "delete-admin",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // table column definition
@@ -74,8 +93,7 @@ const adminTableColumns: ColumnDef<IUser>[] = [
                 <Trash />
               </Button>
             }
-            title="Are you sure to block this user?"
-            description="You can unblock the user later."
+            title="Are you sure to delete this admin?"
             itemId={item?._id?.toString() || ""}
             action={handleDelete}
           />

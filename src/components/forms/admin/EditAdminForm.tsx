@@ -49,7 +49,7 @@ type Props = {
     name: string;
     email: string;
     phone: string;
-    permissions: string[];
+    adminaccess: string[];
   };
 };
 
@@ -62,9 +62,9 @@ export default function EditAdminForm({ admin }: Props) {
   });
 
   const [permissions, setPermissions] = useState<string[]>(
-    admin.permissions.includes("/profile")
-      ? admin.permissions
-      : ["/profile", ...admin.permissions]
+    admin.adminaccess.includes("/profile")
+      ? admin.adminaccess
+      : ["/profile", ...admin.adminaccess]
   );
 
   const handleAddPermission = (route: string) => {

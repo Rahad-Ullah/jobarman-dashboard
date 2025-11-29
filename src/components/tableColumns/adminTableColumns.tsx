@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Lock, LockOpen, PencilLine } from "lucide-react";
+import { PencilLine, Trash } from "lucide-react";
 import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import { IUser } from "@/types/user";
 import EditAdminForm from "../forms/admin/EditAdminForm";
 
-// handle status update
-const handleStatusUpdate = async () => {
+// handle delete
+const handleDelete = async () => {
   // perform api here...
 };
 
@@ -27,11 +28,7 @@ const adminTableColumns: ColumnDef<IUser>[] = [
     header: "User Name",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return (
-        <p className="px-2">
-          {item?.firstName} {item?.lastName}
-        </p>
-      );
+      return <p className="px-2">{item?.name}</p>;
     },
   },
   {
@@ -43,11 +40,11 @@ const adminTableColumns: ColumnDef<IUser>[] = [
     },
   },
   {
-    accessorKey: "phone",
-    header: "Phone",
+    accessorKey: "access",
+    header: "Access",
     cell: ({ row }) => {
-      const item = row.original as IUser;
-      return <p className="px-2">{item?.phone}</p>;
+      const item = row.original as any;
+      return <p className="px-2">{item?.adminaccess?.length} Pages</p>;
     },
   },
   {
@@ -68,49 +65,20 @@ const adminTableColumns: ColumnDef<IUser>[] = [
             dialogTitle=""
             className="max-w-[30vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-10 bg-secondary-foreground"
           >
-            <EditAdminForm
-              admin={{
-                name: "Rahad Hossain",
-                email: "rahad@example.com",
-                phone: "+8801234567890",
-                permissions: ["/", "/users", "/faq"],
-              }}
-            />
+            <EditAdminForm admin={item as any} />
           </Modal>
-          {/* Block or unblock */}
-          {item.isBlocked ? (
-            <DeleteModal
-              triggerBtn={
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="text-red-500"
-                >
-                  <Lock />
-                </Button>
-              }
-              title="Are you sure to unblock this user?"
-              description="You can block the user later."
-              itemId={item?._id?.toString() || ""}
-              action={handleStatusUpdate}
-            />
-          ) : (
-            <DeleteModal
-              triggerBtn={
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="text-gray-400"
-                >
-                  <LockOpen />
-                </Button>
-              }
-              title="Are you sure to block this user?"
-              description="You can unblock the user later."
-              itemId={item?._id?.toString() || ""}
-              action={handleStatusUpdate}
-            />
-          )}
+          {/* Delete */}
+          <DeleteModal
+            triggerBtn={
+              <Button variant={"ghost"} size={"icon"} className="text-red-500">
+                <Trash />
+              </Button>
+            }
+            title="Are you sure to block this user?"
+            description="You can unblock the user later."
+            itemId={item?._id?.toString() || ""}
+            action={handleDelete}
+          />
         </div>
       );
     },

@@ -12,29 +12,18 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { capitalizeSentence } from "@/utils/capitalizeSentence";
 import { IUser } from "@/types/user";
-import { useUpdateMultiSearchParams } from "@/hooks/useUpdateMultiSearchParams";
 import DashboardTable from "@/components/shared/table";
 import TablePagination from "@/components/shared/table-pagination";
 import PageTitle from "@/components/shared/PageTitle";
-import SearchBar from "@/components/shared/SearchBar";
-import { userStatuses } from "@/constants/user";
 import adminTableColumns from "@/components/tableColumns/adminTableColumns";
 import Modal from "@/components/modals/Modal";
 import AddAdminForm from "@/components/forms/admin/AddAdminForm";
 
-const AdminsTable = ({ users = [], filters, meta }) => {
-  const updateMultiSearchParams = useUpdateMultiSearchParams();
+const AdminsTable = ({ users = [], meta }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -69,38 +58,6 @@ const AdminsTable = ({ users = [], filters, meta }) => {
       <section className="flex flex-wrap justify-between items-center gap-4 pb-4">
         <PageTitle>Admin Management</PageTitle>
         <div className="flex items-center gap-6">
-          <SearchBar />
-          {/* status Filter Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="capitalize min-w-32 justify-between"
-              >
-                {filters?.status ? `${filters?.status}` : "All Status"}{" "}
-                <ChevronDown className="text-primary" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem
-                onClick={() =>
-                  updateMultiSearchParams({ status: null, page: null })
-                }
-              >
-                All Status
-              </DropdownMenuItem>
-              {userStatuses.map((item) => (
-                <DropdownMenuItem
-                  key={item}
-                  onClick={() =>
-                    updateMultiSearchParams({ status: item, page: null })
-                  }
-                >
-                  {capitalizeSentence(item)}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
           {/* add new admin button */}
           <Modal
             dialogTrigger={

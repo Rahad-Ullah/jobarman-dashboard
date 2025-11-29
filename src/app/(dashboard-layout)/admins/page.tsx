@@ -1,26 +1,21 @@
 import AdminsTable from "@/components/page/admins/AdminTable";
-import { demoUsersData } from "@/demoData/users";
+import { nextFetch } from "@/utils/nextFetch";
 const AdminsPage = async ({ searchParams }) => {
-  const { status } = await searchParams;
+  const { status, searchTerm, page } = await searchParams;
   // Build query parameters for the backend request
-  // const queryParams = new URLSearchParams({
-  //   ...(status && { status }),
-  //   ...(searchTerm && { searchTerm }),
-  //   ...(page && { page }),
-  // });
+  const queryParams = new URLSearchParams({
+    ...(status && { status }),
+    ...(searchTerm && { searchTerm }),
+    ...(page && { page }),
+  });
 
-  // Fetch data from the backend when backend is ready
-  // const res = await myFetch(`/user/users?${queryParams.toString()}`, {
-  //   tags: ["users"],
-  // });
+  const res = await nextFetch(`/admin?${queryParams.toString()}`, {
+    tags: ["admins"],
+  });
 
   return (
     <>
-      <AdminsTable
-        users={demoUsersData as never[]}
-        meta={{ page: 1, totalPage: 1, total: 12 } as never}
-        filters={{ status }}
-      />
+      <AdminsTable users={res?.data} meta={res?.pagination} />
     </>
   );
 };

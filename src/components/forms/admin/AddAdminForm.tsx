@@ -22,6 +22,9 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Check, CheckCircle, XCircle } from "lucide-react";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // Route-based permission list
 const availablePermissions = [
@@ -41,7 +44,8 @@ const availablePermissions = [
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Enter a valid email"),
-  phone: z.string().min(10, "Enter a valid phone number"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  contact: z.string().nonempty("Contact is required"),
   permission: z.string().optional(),
 });
 
@@ -53,7 +57,8 @@ export default function AddAdminForm() {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
+      password: "",
+      contact: "",
       permission: "",
     },
   });
@@ -72,9 +77,30 @@ export default function AddAdminForm() {
     }
   };
 
-  const onSubmit = (values: FormValues) => {
-    console.log("Admin Info:", values);
-    console.log("Permissions:", permissions);
+  const onSubmit = async (values: FormValues) => {
+    toast.loading("Adding...", { id: "add-admin-toast" });
+    const payload = {
+      ...values,
+      adminaccess: permissions,
+    };
+    try {
+      const res = await nextFetch("/admin", {
+        method: "POST",
+        body: payload,
+      });
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "add-admin-toast" });
+        revalidate("admins");
+        window.location.reload();
+        form.reset();
+      } else {
+        toast.error(res?.message || "Failed to add admin", {
+          id: "add-admin-toast",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -91,7 +117,7 @@ export default function AddAdminForm() {
               <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. Rahad Hossain"
+                  placeholder="Enter full name"
                   {...field}
                   className="bg-white"
                 />
@@ -111,7 +137,7 @@ export default function AddAdminForm() {
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="admin@example.com"
+                  placeholder="Enter email"
                   {...field}
                   className="bg-white"
                 />
@@ -121,17 +147,36 @@ export default function AddAdminForm() {
           )}
         />
 
-        {/* Phone */}
+        {/* Password */}
         <FormField
           control={form.control}
-          name="phone"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
-                  type="tel"
-                  placeholder="+8801234567890"
+                  type="password"
+                  placeholder="Enter password"
+                  {...field}
+                  className="bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Contact */}
+        <FormField
+          control={form.control}
+          name="contact"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contact</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter contact number"
                   {...field}
                   className="bg-white"
                 />

@@ -60,7 +60,7 @@ export default function PlanCard({ plan, idx }: Props) {
         <div className="text-4xl font-semibold mt-1">
           ${plan.price}/
           <span className="text-lg font-light">
-            {plan.recurring?.slice(0, -2)}
+            {plan.recurring}
           </span>
         </div>
       </div>

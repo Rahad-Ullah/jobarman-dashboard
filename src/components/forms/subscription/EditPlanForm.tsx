@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, Plus } from "lucide-react";
+import { ISubscriptionPlan } from "@/components/page/subscriptions/PlanCard";
 
 const formSchema = z.object({
   planType: z.string().min(1, "Select a plan type"),
@@ -31,24 +32,6 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
-
-export interface ISubscriptionPlan {
-  _id: string;
-  name: string;
-  price: number;
-  priceId: string;
-  product: string;
-  payment_link: string;
-  for: "employee" | "recruiter" | string;
-  features: string[];
-  paymentId: string;
-  referenceId: string;
-  recurring: "month" | "year" | string;
-  status: "active" | "inactive" | string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
 
 type Props = {
   initialPlan: ISubscriptionPlan;

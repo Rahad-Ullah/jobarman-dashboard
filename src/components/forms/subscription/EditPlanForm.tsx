@@ -32,15 +32,26 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-type Plan = {
-  planType: string;
-  customerType: string;
+export interface ISubscriptionPlan {
+  _id: string;
+  name: string;
   price: number;
+  priceId: string;
+  product: string;
+  payment_link: string;
+  for: "employee" | "recruiter" | string;
   features: string[];
-};
+  paymentId: string;
+  referenceId: string;
+  recurring: "month" | "year" | string;
+  status: "active" | "inactive" | string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 type Props = {
-  initialPlan: Plan;
+  initialPlan: ISubscriptionPlan;
 };
 
 export default function EditPlanForm({ initialPlan }: Props) {

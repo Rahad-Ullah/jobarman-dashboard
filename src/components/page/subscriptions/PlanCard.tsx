@@ -7,15 +7,26 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle } from "lucide-react";
 import Image from "next/image";
 
-type Plan = {
-  customerType: string;
-  planType: string;
+export interface ISubscriptionPlan {
+  _id: string;
+  name: string;
   price: number;
+  priceId: string;
+  product: string;
+  payment_link: string;
+  for: "employee" | "recruiter" | string;
   features: string[];
-};
+  paymentId: string;
+  referenceId: string;
+  recurring: "month" | "year" | string;
+  status: "active" | "inactive" | string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 type Props = {
-  plan: Plan;
+  plan: ISubscriptionPlan;
   idx?: number;
 };
 
@@ -48,7 +59,9 @@ export default function PlanCard({ plan, idx }: Props) {
       <div className="bg-gradient-to-r from-primary-foreground to-primary rounded-t-lg text-white text-center py-7">
         <div className="text-4xl font-semibold mt-1">
           ${plan.price}/
-          <span className="text-lg font-light">{plan.planType}</span>
+          <span className="text-lg font-light">
+            {plan.recurring?.slice(0, -2)}
+          </span>
         </div>
       </div>
 

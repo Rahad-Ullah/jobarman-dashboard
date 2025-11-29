@@ -3,18 +3,16 @@ import Modal from "@/components/modals/Modal";
 import PlanCard from "@/components/page/subscriptions/PlanCard";
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";
-import { demoSubscriptionsData } from "@/demoData/subscriptions";
+import { nextFetch } from "@/utils/nextFetch";
 import { Plus } from "lucide-react";
 
-const recruiterPlans = demoSubscriptionsData?.filter(
-  (plan) => plan.customerType === "Recruiter"
-);
+const SubscriptionPage = async () => {
+  const res = await nextFetch("/package", { tags: ["subscription-packages"] });
 
-const jobSeekerPlans = demoSubscriptionsData?.filter(
-  (plan) => plan.customerType === "Job Seeker"
-);
+  const recruiterPlans = res?.data?.filter((item) => item.for === "employee");
 
-const SubscriptionPage = () => {
+  const jobSeekerPlans = res?.data?.filter((item) => item.for === "recruiter");
+
   return (
     <div>
       <section className="flex justify-between items-center gap-8">
@@ -39,8 +37,8 @@ const SubscriptionPage = () => {
             {/* Section Title */}
             <h2 className="text-2xl font-semibold mt-8 mb-4">Job Seeker</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {jobSeekerPlans.map((plan, idx) => (
-                <PlanCard key={idx} plan={plan} idx={idx} />
+              {jobSeekerPlans.map((item, idx) => (
+                <PlanCard key={idx} plan={item} idx={idx} />
               ))}
             </div>
           </div>
@@ -52,8 +50,8 @@ const SubscriptionPage = () => {
             {/* Section Title */}
             <h2 className="text-2xl font-semibold mt-8 mb-4">Recruiter</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recruiterPlans.map((plan, idx) => (
-                <PlanCard key={idx} plan={plan} idx={idx} />
+              {recruiterPlans.map((item, idx) => (
+                <PlanCard key={idx} plan={item} idx={idx} />
               ))}
             </div>
           </div>

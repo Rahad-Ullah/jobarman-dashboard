@@ -6,7 +6,14 @@ import ManualSearch from "@/components/page/analytics/charts/ManualSearch";
 import { nextFetch } from "@/utils/nextFetch";
 
 const AnalyticsPage = async ({searchParams}) => {
-  const { year } = await searchParams;
+  const { year, startDate, endDate } = await searchParams;
+
+  // Build query parameters for the backend request
+  const queryParams = new URLSearchParams({
+    ...(year && { year }),
+    ...(startDate && { startDate }),
+    ...(endDate && { endDate }),
+  });
   
   const summaryRes = await nextFetch("/dashboard/summury");
   const summary = summaryRes?.data;
@@ -16,6 +23,9 @@ const AnalyticsPage = async ({searchParams}) => {
 
   const weeklyReportRes = await nextFetch(`/dashboard/weekly-report`);
   const weeklyReport = weeklyReportRes?.data;
+
+  const manualReportRes = await nextFetch(`/dashboard/manual-report?${queryParams.toString()}`);
+  const manualReport = manualReportRes?.data?.details;
 
   return (
     <Card className="h-full bg-transparent border-none animate-fadeIn flex flex-col gap-6">
@@ -30,7 +40,7 @@ const AnalyticsPage = async ({searchParams}) => {
 
       <WeeklyReport data={weeklyReport} />
 
-      <ManualSearch />
+      <ManualSearch data={manualReport} />
     </Card>
   );
 };

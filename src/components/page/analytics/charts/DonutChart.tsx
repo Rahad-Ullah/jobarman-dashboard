@@ -13,26 +13,22 @@ import {
 
 export const description = "Conversion funnel donut chart with text";
 
-// Funnel data
-const chartData = [
-  { category: "revenue", value: 1500, fill: "#2A57DE" }, // Blue
-  { category: "jobSeeker", value: 642, fill: "#FF8F27" }, // Orange
-  { category: "recruiter", value: 450, fill: "#147FC7" }, // Green
-  { category: "jobPost", value: 400, fill: "#219653" }, // Teal
-];
-
 // Chart config for ChartContainer
 const chartConfig = {
-  revenue: { label: "Revenue", color: "#2A57DE" },
+  revenue: { label: "Revenue", color: "#147FC7" },
   jobSeeker: { label: "Job Seeker", color: "#FF8F27" },
-  recruiter: { label: "Recruiter", color: "#147FC7" },
-  jobPost: { label: "Recent Job Post", color: "#219653" },
+  recruiter: { label: "Recruiter", color: "#008F37" },
+  jobPost: { label: "Recent Job Post", color: "#14B8A6" },
 } satisfies ChartConfig;
 
-export function PieDonutChart() {
-  const total = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.value, 0);
-  }, []);
+export function PieDonutChart({data}) {
+  // Funnel data
+  const chartData = [
+    { category: "revenue", value: data?.totalRevinue || 0, fill: "#147FC7" }, // Blue
+    { category: "jobSeeker", value: data?.totalJobSeeker || 0, fill: "#FF8F27" }, // Orange
+    { category: "recruiter", value: data?.totalRecruiter || 0, fill: "#008F37" }, // Green
+    { category: "jobPost", value: data?.totalPosts || 0, fill: "#14B8A6" }, // Teal
+  ];
 
   return (
     <Card className="w-full h-full flex items-center">
@@ -63,12 +59,12 @@ export function PieDonutChart() {
                         textAnchor="middle"
                         dominantBaseline="middle"
                       >
-                        <tspan
+                        {/* <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          ${total.toLocaleString()}
+                          ${data?.totalRevinue || 0}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -76,7 +72,7 @@ export function PieDonutChart() {
                           className="fill-muted-foreground text-sm"
                         >
                           Total
-                        </tspan>
+                        </tspan> */}
                       </text>
                     );
                   }

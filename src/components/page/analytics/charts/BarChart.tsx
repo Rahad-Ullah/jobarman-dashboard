@@ -10,14 +10,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Funnel data
-const chartData = [
-  { category: "revenue", value: 1500, color: "#147FC7" },
-  { category: "jobSeeker", value: 900, color: "#FF8F27" },
-  { category: "recruiter", value: 700, color: "#008F37" },
-  { category: "jobPost", value: 500, color: "#14B8A6" },
-];
-
 // Chart config
 const chartConfig = {
   revenue: { label: "Revenue", color: "#147FC7" },
@@ -26,7 +18,15 @@ const chartConfig = {
   jobPost: { label: "Job-Post", color: "#14B8A6" },
 } satisfies ChartConfig;
 
-export function BarConversionFunnel() {
+export function BarConversionFunnel({ data }) {
+  // Funnel data
+  const chartData = [
+    { category: "revenue", value: data?.totalRevinue || 0, color: "#147FC7" },
+    { category: "jobSeeker", value: data?.totalJobSeeker || 0, color: "#FF8F27" },
+    { category: "recruiter", value: data?.totalRecruiter || 0, color: "#008F37" },
+    { category: "jobPost", value: data?.totalPosts || 0, color: "#14B8A6" },
+  ];
+
   return (
     <Card>
       <CardHeader>

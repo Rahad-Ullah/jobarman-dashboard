@@ -2,16 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Lock, LockOpen } from "lucide-react";
-import DeleteModal from "../modals/DeleteModal";
+import { Eye } from "lucide-react";
 import Modal from "../modals/Modal";
 import SubscriberDetails from "../page/subscribers/subscriberDetails/SubscriberDetails";
 import { ISubscriber } from "@/types/subscriber";
-
-// handle delete
-const handleDelete = async () => {
-  // perform api here...
-};
 
 // table column definition
 const subscriberTableColumns: ColumnDef<ISubscriber>[] = [
@@ -82,40 +76,6 @@ const subscriberTableColumns: ColumnDef<ISubscriber>[] = [
           >
             <SubscriberDetails item={item} />
           </Modal>
-          {/* Block or unblock */}
-          {item.status === "inactive" ? (
-            <DeleteModal
-              triggerBtn={
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="text-red-500"
-                >
-                  <Lock />
-                </Button>
-              }
-              title="Are you sure to unblock this user?"
-              description="You can block the user later."
-              itemId={item?._id?.toString() || ""}
-              action={handleDelete}
-            />
-          ) : (
-            <DeleteModal
-              triggerBtn={
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="text-gray-400"
-                >
-                  <LockOpen />
-                </Button>
-              }
-              title="Are you sure to block this user?"
-              description="You can unblock the user later."
-              itemId={item?._id?.toString() || ""}
-              action={handleDelete}
-            />
-          )}
         </div>
       );
     },

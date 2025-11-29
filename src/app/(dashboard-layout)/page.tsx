@@ -5,9 +5,17 @@ import WeeklyReport from "@/components/page/analytics/charts/WeeklyReport";
 import ManualSearch from "@/components/page/analytics/charts/ManualSearch";
 import { nextFetch } from "@/utils/nextFetch";
 
-const AnalyticsPage = async () => {
+const AnalyticsPage = async ({searchParams}) => {
+  const { year } = await searchParams;
+  
   const summaryRes = await nextFetch("/dashboard/summury");
   const summary = summaryRes?.data;
+
+  const earningRes = await nextFetch(`/dashboard/monthly-report?year=${year || new Date().getFullYear()}`);
+  const earning = earningRes?.data;
+
+  const weeklyReportRes = await nextFetch(`/dashboard/weekly-report`);
+  const weeklyReport = weeklyReportRes?.data;
 
   return (
     <Card className="h-full bg-transparent border-none animate-fadeIn flex flex-col gap-6">
@@ -18,9 +26,9 @@ const AnalyticsPage = async () => {
         <StatCard title="Total Revenue" value={summary?.totalRevinue || 0} prefix="$"/>
       </div>
 
-      <EarningChart />
+      <EarningChart data={earning} />
 
-      <WeeklyReport />
+      <WeeklyReport data={weeklyReport} />
 
       <ManualSearch />
     </Card>

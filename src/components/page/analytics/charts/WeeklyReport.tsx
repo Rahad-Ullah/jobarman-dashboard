@@ -7,16 +7,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { day: "Sunday", revenue: 3100, jobSeeker: 2900, recruiter: 2200 },
-  { day: "Monday", revenue: 3400, jobSeeker: 3600, recruiter: 2800 },
-  { day: "Tuesday", revenue: 3700, jobSeeker: 3400, recruiter: 3100 },
-  { day: "Wednesday", revenue: 2900, jobSeeker: 3100, recruiter: 1900 },
-  { day: "Thursday", revenue: 3200, jobSeeker: 3600, recruiter: 2800 },
-  { day: "Friday", revenue: 3300, jobSeeker: 3700, recruiter: 2900 },
-  { day: "Saturday", revenue: 3100, jobSeeker: 2900, recruiter: 2700 },
-];
-
 const chartConfig = {
   revenue: {
     label: "Revenue",
@@ -32,7 +22,14 @@ const chartConfig = {
   },
 };
 
-export default function WeeklyReport() {
+export default function WeeklyReport({ data = []}: { data: { dayName: string, totalJobSeeker: number, totalRecruiter: number, totalRevinue: number }[] }) {
+  const chartData = data.map((item) => ({
+    day: item.dayName,
+    jobSeeker: item.totalJobSeeker,
+    recruiter: item.totalRecruiter,
+    revenue: item.totalRevinue,
+  }))
+  
   return (
     <div className="bg-white rounded-lg p-6 border">
       <h2 className="text-xl font-semibold py-4">Weekly Report</h2>

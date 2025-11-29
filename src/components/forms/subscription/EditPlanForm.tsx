@@ -23,12 +23,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, Plus } from "lucide-react";
 import { ISubscriptionPlan } from "@/components/page/subscriptions/PlanCard";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 const formSchema = z.object({
-  planType: z.string().min(1, "Select a plan type"),
-  customerType: z.string().min(1, "Select a customer type"),
+  name: z.string().min(1, "Plan name is required").optional(),
+  price: z.coerce.number().positive("Price must be greater than 0").optional(),
+  for: z.string().nonempty("For is required").optional(),
   feature: z.string().optional(),
-  price: z.coerce.number().min(0, "Enter a valid price"),
+  paymentId: z.string().min(1, "Payment ID is required").optional(),
+  referenceId: z.string().min(1, "Reference ID is required").optional(),
+  recurring: z.string().nonempty("Recurring is required").optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -41,10 +47,12 @@ export default function EditPlanForm({ initialPlan }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      planType: initialPlan.planType,
-      customerType: initialPlan.customerType,
-      feature: "",
+      name: initialPlan.name,
       price: initialPlan.price,
+      for: initialPlan.for,
+      paymentId: initialPlan.paymentId,
+      referenceId: initialPlan.referenceId,
+      recurring: initialPlan.recurring,
     },
   });
 
@@ -61,16 +69,30 @@ export default function EditPlanForm({ initialPlan }: Props) {
     }
   };
 
-  const handleSubmit = (values: FormValues) => {
-    const updatedPlan: Plan = {
-      planType: values.planType,
-      customerType: values.customerType,
-      price: values.price,
+  const handleSubmit = async (values: FormValues) => {
+    toast.loading("Updating...", { id: "update-plan-toast" });
+    const payload = {
+      ...values,
       features,
     };
 
-    // Handle the updated plan (e.g., send to API or update state)
-    console.log("Updated Plan:", updatedPlan);
+    try {
+      const res = await nextFetch(`/package/${initialPlan._id}`, {
+        method: "PATCH",
+        body: payload,
+      });
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "update-plan-toast" });
+        revalidate("subscription-packages");
+        window.location.reload();
+      } else {
+        toast.error(res?.message || "Failed to update plan", {
+          id: "update-plan-toast",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -82,7 +104,7 @@ export default function EditPlanForm({ initialPlan }: Props) {
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="planType"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Plan Type</FormLabel>
@@ -110,7 +132,7 @@ export default function EditPlanForm({ initialPlan }: Props) {
 
           <FormField
             control={form.control}
-            name="customerType"
+            name="for"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Customer Type</FormLabel>
@@ -123,8 +145,8 @@ export default function EditPlanForm({ initialPlan }: Props) {
                       <SelectValue placeholder="Select Customer Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Job Seeker">Job Seeker</SelectItem>
-                      <SelectItem value="Recruiter">Recruiter</SelectItem>
+                      <SelectItem value="employee">Employee</SelectItem>
+                      <SelectItem value="recruiter">Recruiter</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -150,6 +172,72 @@ export default function EditPlanForm({ initialPlan }: Props) {
                   {...field}
                   className="h-10 bg-white"
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* paymentId */}
+        <FormField
+          control={form.control}
+          name="paymentId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payment ID</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Enter Payment ID"
+                  {...field}
+                  className="h-10 bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* referenceId */}
+        <FormField
+          control={form.control}
+          name="referenceId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Reference ID</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Enter Reference ID"
+                  {...field}
+                  className="h-10 bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* recurring */}
+        <FormField
+          control={form.control}
+          name="recurring"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Recurring</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Recurring" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="month">Monthly</SelectItem>
+                    <SelectItem value="year">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

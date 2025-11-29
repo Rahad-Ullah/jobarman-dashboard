@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -22,6 +23,9 @@ import { Check, CheckCircle, XCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import { revalidate } from "@/helpers/revalidateHelper";
+import { nextFetch } from "@/utils/nextFetch";
 
 // Permission routes
 const availablePermissions = [
@@ -44,16 +48,25 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-type Props = {
-  admin: {
-    name: string;
-    email: string;
-    phone: string;
-    adminaccess: string[];
-  };
-};
+export interface IAdminUser {
+  _id: string;
+  name: string;
+  role: "ADMIN" | "SUPER_ADMIN" | "RECRUITER" | "EMPLOYEE" | string;
+  email: string;
+  image: string;
+  status: "active" | "inactive" | string;
+  verified: boolean;
+  isSocialLogin: boolean;
+  skills: string[];
+  adminaccess: string[];
+  isAutoApply: boolean;
+  educations: any[];
+  workExperiences: any[];
+  createdAt: string;
+  updatedAt: string;
+}
 
-export default function EditAdminForm({ admin }: Props) {
+export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -79,20 +92,36 @@ export default function EditAdminForm({ admin }: Props) {
     }
   };
 
-  const onSubmit = () => {
-    console.log("Updated permissions:", permissions);
+  const onSubmit = async () => {
+    toast.loading("Updating...", { id: "update-admin-toast" });
+    try {
+      const res = await nextFetch(`/admin/${admin._id}`, {
+        method: "PATCH",
+        body: { adminaccess: permissions },
+      });
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "update-admin-toast" });
+        revalidate("admins");
+        window.location.reload();
+      } else {
+        toast.error(res?.message || "Failed to update admin", {
+          id: "update-admin-toast",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <h2 className="text-2xl font-semibold">Edit Admin</h2>
+        <h2 className="text-2xl font-semibold">Edit Admin Permissions</h2>
 
         {/* Read-only Info */}
         <div className="space-y-2">
           <Input value={admin.name} readOnly className="bg-muted" />
           <Input value={admin.email} readOnly className="bg-muted" />
-          <Input value={admin.phone} readOnly className="bg-muted" />
         </div>
 
         {/* Permission Dropdown */}

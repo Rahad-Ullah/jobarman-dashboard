@@ -47,14 +47,14 @@ export function NavMain({
 
           if (isActive) {
             styles =
-              "bg-secondary-foreground hover:bg-secondary-foreground active:bg-secondary-foreground text-primary-foreground hover:text-primary-foreground active:text-primary-foreground font-semibold rounded-l-full";
+              "bg-secondary-foreground hover:bg-secondary-foreground active:bg-secondary-foreground text-primary-foreground hover:text-primary-foreground active:text-primary-foreground font-semibold rounded-lg";
             wrapperStyles = "bg-primary-foreground";
           } else if (isPrev) {
             // prev neighbor gets bottom curve
-            styles = "bg-primary-foreground rounded-br-3xl";
+            styles = "bg-primary-foreground";
           } else if (isNext) {
             // next neighbor gets top curve
-            styles = "bg-primary-foreground rounded-tr-3xl";
+            styles = "bg-primary-foreground";
           }
 
           return (

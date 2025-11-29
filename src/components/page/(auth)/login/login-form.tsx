@@ -16,7 +16,7 @@ import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { nextFetch } from "@/utils/nextFetch";
 import { setCookie } from "cookies-next";
 
@@ -26,7 +26,6 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const router = useRouter();
-  const redirect = useSearchParams().get("redirect");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     toast.loading("Logging in...", {
@@ -45,14 +44,14 @@ export function LoginForm({
         body: payload,
       });
       if (res?.success) {
-        if(res?.data?.role !== "ADMIN" && res?.data?.role !== "SUPER_ADMIN") {
+        if (res?.data?.role !== "ADMIN" && res?.data?.role !== "SUPER_ADMIN") {
           toast.error("You are not allowed to this portal", { id: "login" });
           return;
         }
         toast.success(res?.message as string, { id: "login" });
         setCookie("accessToken", res?.data?.createToken);
         setCookie("accessToken", res?.data?.refreshToken);
-        router.push(redirect || "/");
+        router.push(res?.data?.role === "SUPER_ADMIN" ? "/" : "/profile");
       } else {
         toast.error(res?.message || "Failed to login", { id: "login" });
       }

@@ -37,7 +37,7 @@ export default function DashboardLayout({
       </header>
       <div className="flex">
         {/* dashboard sidebar */}
-        <AppSidebar className="p-4 pr-0 m-4 rounded-2xl" />
+        <AppSidebar className="p-4 pt-6 m-4 rounded-2xl" />
         <SidebarInset className="bg-transparent p-4 gap-4">
           {/* dashboard content */}
           <div className="rounded-xl flex-1">{children}</div>

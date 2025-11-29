@@ -53,6 +53,7 @@ export default function EditPlanForm({ initialPlan }: Props) {
       paymentId: initialPlan.paymentId,
       referenceId: initialPlan.referenceId,
       recurring: initialPlan.recurring,
+      feature: "",
     },
   });
 
@@ -64,13 +65,21 @@ export default function EditPlanForm({ initialPlan }: Props) {
 
   const handleAddFeature = (feature: string) => {
     if (feature.trim()) {
-      setFeatures([...features]);
+      setFeatures([...features, feature.trim()]);
       form.setValue("feature", "");
     }
   };
 
   const handleSubmit = async (values: FormValues) => {
     toast.loading("Updating...", { id: "update-plan-toast" });
+    // check if features array is empty
+    if (features.length === 0) {
+      toast.error("Please add at least one feature", {
+        id: "update-plan-toast",
+      });
+      return;
+    }
+
     const payload = {
       ...values,
       features,

@@ -65,6 +65,12 @@ export default function AddPlanForm() {
 
   const onSubmit = async (values: FormValues) => {
     toast.loading("Adding...", { id: "add-plan-toast" });
+    // check if features array is empty
+    if (features.length === 0) {
+      toast.error("Please add at least one feature", { id: "add-plan-toast" });
+      return;
+    }
+
     try {
       const res = await nextFetch("/package", {
         method: "POST",

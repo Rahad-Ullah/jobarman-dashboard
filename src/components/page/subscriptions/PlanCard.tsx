@@ -4,8 +4,11 @@ import EditPlanForm from "@/components/forms/subscription/EditPlanForm";
 import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import { Button } from "@/components/ui/button";
+import { revalidate } from "@/helpers/revalidateHelper";
+import { nextFetch } from "@/utils/nextFetch";
 import { CheckCircle, XCircle } from "lucide-react";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export interface ISubscriptionPlan {
   _id: string;
@@ -31,14 +34,49 @@ type Props = {
 };
 
 const icons = [
-  "https://cdn-icons-png.flaticon.com/512/6130/6130708.png",
-  "https://cdn-icons-png.freepik.com/512/7955/7955211.png",
-  "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
+  {
+    name: "Free Plan",
+    icon: "https://cdn-icons-png.flaticon.com/512/6130/6130708.png",
+  },
+  {
+    name: "Silver Plan",
+    icon: "https://cdn-icons-png.freepik.com/512/7955/7955211.png",
+  },
+  {
+    name: "Platinum Plan",
+    icon: "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
+  },
 ];
 
-export default function PlanCard({ plan, idx }: Props) {
+const getIcon = (planName: string) => {
+  return (
+    icons.find((item) => item.name.toLowerCase() === planName.toLowerCase())
+      ?.icon ?? icons[0].icon // fallback icon
+  );
+};
+
+export default function PlanCard({ plan }: Props) {
   // handle delete
-  const handleDelete = async () => {};
+  const handleDelete = async (id: string) => {
+    toast.loading("Deleting...", { id: "delete-plan-toast" });
+    try {
+      const res = await nextFetch(`/package/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res?.success) {
+        toast.success(res?.message as string, { id: "delete-plan-toast" });
+        revalidate("subscription-packages");
+        window.location.reload();
+      } else {
+        toast.error(res?.message || "Failed to delete plan", {
+          id: "delete-plan-toast",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col bg-white border border-primary rounded-xl relative">
@@ -46,7 +84,7 @@ export default function PlanCard({ plan, idx }: Props) {
       <div className="flex justify-center w-full absolute -translate-y-1/2 top-0">
         <div className="bg-white border border-secondary rounded-full p-2">
           <Image
-            src={idx !== undefined && icons[idx] ? icons[idx] : icons[0]}
+            src={getIcon(plan.name)}
             alt="plan icon"
             width={50}
             height={50}
@@ -59,9 +97,7 @@ export default function PlanCard({ plan, idx }: Props) {
       <div className="bg-gradient-to-r from-primary-foreground to-primary rounded-t-lg text-white text-center py-7">
         <div className="text-4xl font-semibold mt-1">
           ${plan.price}/
-          <span className="text-lg font-light">
-            {plan.recurring}
-          </span>
+          <span className="text-lg font-light">{plan.recurring}</span>
         </div>
       </div>
 
@@ -101,7 +137,7 @@ export default function PlanCard({ plan, idx }: Props) {
             </Button>
           }
           title="Are you sure to delete this item?"
-          itemId={""}
+          itemId={plan?._id?.toString() || ""}
           action={handleDelete}
         />
       </div>

@@ -93,22 +93,24 @@ export default function AdsDetails({ item }: { item: IAdvertisement }) {
 
       {/* Action Buttons */}
       <div className="flex justify-center gap-4">
-        <Button
-          onClick={() => handleUpdate(item._id, "rejected")}
-          disabled={item?.status !== "pending"}
-          variant="destructive"
-          className="px-8"
-        >
-          Reject
-        </Button>
-        <Button
-          onClick={() => handleUpdate(item._id, "approved")}
-          disabled={item?.status !== "pending"}
-          variant="default"
-          className="px-6"
-        >
-          Approve
-        </Button>
+        {item?.status === "pending" && (
+          <Button
+            onClick={() => handleUpdate(item._id, "rejected")}
+            variant="destructive"
+            className="px-8"
+          >
+            Reject
+          </Button>
+        )}
+        {item?.status === "pending" && (
+          <Button
+            onClick={() => handleUpdate(item._id, "approved")}
+            variant="default"
+            className="px-6"
+          >
+            Approve
+          </Button>
+        )}
       </div>
     </section>
   );

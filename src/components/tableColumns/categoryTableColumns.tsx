@@ -9,10 +9,29 @@ import DeleteModal from "../modals/DeleteModal";
 import Image from "next/image";
 import EditCategoryForm from "../forms/category/EditCategory";
 import { IMAGE_URL } from "@/config/env-config";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // handle delete item
-const handleDelete = async () => {
-  // perform backend api here...
+const handleDelete = async (id: string) => {
+  toast.loading("Deleting...", { id: "delete-category-toast" });
+  try {
+    const res = await nextFetch(`/job-category/${id}`, {
+      method: "DELETE",
+    });
+    if (res?.success) {
+      toast.success("Category deleted successfully", {
+        id: "delete-category-toast",
+      });
+      revalidate("categories");
+      window.location.reload();
+    } else {
+      toast.error("Failed to delete category", { id: "delete-category-toast" });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // table column definition

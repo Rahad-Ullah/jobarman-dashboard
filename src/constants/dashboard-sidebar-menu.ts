@@ -17,10 +17,6 @@ import {
 export const sidebarMenu = {
   navMain: [
     {
-      title: "",
-      url: "",
-    },
-    {
       title: "Overview",
       url: "/",
       icon: Blocks,
@@ -85,10 +81,6 @@ export const sidebarMenu = {
       title: "My Profile",
       url: "/profile",
       icon: UserRound,
-    },
-    {
-      title: "",
-      url: "",
     },
   ],
 };

@@ -39,6 +39,8 @@ const availablePermissions = [
   { route: "/privacy-policy", label: "Privacy Policy" },
   { route: "/faq", label: "FAQ" },
   { route: "/supports", label: "Supports" },
+  { route: "/profile", label: "Profile" },
+  { route: "/notifications", label: "Notifications" },
 ];
 
 const formSchema = z.object({
@@ -63,7 +65,8 @@ export default function AddAdminForm() {
     },
   });
 
-  const [permissions, setPermissions] = useState<string[]>(["/profile"]);
+  const defaultPermissions = ["/profile", "/notifications"];
+  const [permissions, setPermissions] = useState<string[]>(defaultPermissions);
 
   const handleAddPermission = (route: string) => {
     if (!permissions.includes(route)) {
@@ -72,7 +75,7 @@ export default function AddAdminForm() {
   };
 
   const handleRemovePermission = (route: string) => {
-    if (route !== "/profile") {
+    if (!defaultPermissions.includes(route)) {
       setPermissions(permissions.filter((r) => r !== route));
     }
   };
@@ -229,20 +232,19 @@ export default function AddAdminForm() {
         <ul>
           {permissions.map((route) => {
             const label =
-              availablePermissions.find((p) => p.route === route)?.label ||
-              (route === "/profile" ? "Profile" : route);
+              availablePermissions.find((p) => p.route === route)?.label || "";
             return (
               <li
                 key={route}
                 className={`flex items-center justify-between text-sm bg-gray-50 rounded px-3 ${
-                  route === "/profile" && "py-3"
+                  defaultPermissions.includes(route) && "py-3"
                 }`}
               >
                 <div className="flex items-center gap-2">
                   <CheckCircle className="text-green-600 w-4 h-4" />
                   <span>{label}</span>
                 </div>
-                {route !== "/profile" && (
+                {!defaultPermissions.includes(route) && (
                   <Button
                     type="button"
                     variant="ghost"

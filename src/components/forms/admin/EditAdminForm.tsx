@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import { revalidate } from "@/helpers/revalidateHelper";
 import { nextFetch } from "@/utils/nextFetch";
 
-// Permission routes
+// Permission routes (same as AddAdminForm)
 const availablePermissions = [
   { route: "/", label: "Home" },
   { route: "/users", label: "Users" },
@@ -40,6 +40,8 @@ const availablePermissions = [
   { route: "/privacy-policy", label: "Privacy Policy" },
   { route: "/faq", label: "FAQ" },
   { route: "/supports", label: "Supports" },
+  { route: "/profile", label: "Profile" },
+  { route: "/notifications", label: "Notifications" },
 ];
 
 const formSchema = z.object({
@@ -51,10 +53,10 @@ type FormValues = z.infer<typeof formSchema>;
 export interface IAdminUser {
   _id: string;
   name: string;
-  role: "ADMIN" | "SUPER_ADMIN" | "RECRUITER" | "EMPLOYEE" | string;
+  role: string;
   email: string;
   image: string;
-  status: "active" | "inactive" | string;
+  status: string;
   verified: boolean;
   isSocialLogin: boolean;
   skills: string[];
@@ -74,11 +76,14 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
     },
   });
 
-  const [permissions, setPermissions] = useState<string[]>(
-    admin.adminaccess.includes("/profile")
-      ? admin.adminaccess
-      : ["/profile", ...admin.adminaccess]
+  // default permissions same as AddAdminForm
+  const defaultPermissions = ["/profile", "/notifications"];
+
+  const initialPermissions = Array.from(
+    new Set([...defaultPermissions, ...admin.adminaccess])
   );
+
+  const [permissions, setPermissions] = useState<string[]>(initialPermissions);
 
   const handleAddPermission = (route: string) => {
     if (!permissions.includes(route)) {
@@ -87,7 +92,7 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
   };
 
   const handleRemovePermission = (route: string) => {
-    if (route !== "/profile") {
+    if (!defaultPermissions.includes(route)) {
       setPermissions(permissions.filter((r) => r !== route));
     }
   };
@@ -99,6 +104,7 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
         method: "PATCH",
         body: { adminaccess: permissions },
       });
+
       if (res?.success) {
         toast.success(res?.message as string, { id: "update-admin-toast" });
         revalidate("admins");
@@ -130,7 +136,7 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
           name="permission"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Edit Permission</FormLabel>
+              <FormLabel>Add Permission</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={(value) => {
@@ -138,7 +144,6 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
                     form.setValue("permission", "");
                   }}
                   defaultValue={field.value}
-                  {...field}
                 >
                   <SelectTrigger className="h-12">
                     <SelectValue placeholder="Select permissions" />
@@ -168,19 +173,21 @@ export default function EditAdminForm({ admin }: { admin: IAdminUser }) {
           {permissions.map((route) => {
             const label =
               availablePermissions.find((p) => p.route === route)?.label ||
-              (route === "/profile" ? "Profile" : route);
+              route;
+
             return (
               <li
                 key={route}
-                className={`flex items-center justify-between text-sm bg-gray-50 rounded px-3 ${
-                  route === "/profile" && "py-3"
+                 className={`flex items-center justify-between text-sm bg-gray-50 rounded px-3 ${
+                  defaultPermissions.includes(route) && "py-3"
                 }`}
               >
                 <div className="flex items-center gap-2">
                   <CheckCircle className="text-green-600 w-4 h-4" />
                   <span>{label}</span>
                 </div>
-                {route !== "/profile" && (
+
+                {!defaultPermissions.includes(route) && (
                   <Button
                     type="button"
                     variant="ghost"

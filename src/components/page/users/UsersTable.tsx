@@ -30,6 +30,7 @@ import TablePagination from "@/components/shared/table-pagination";
 import PageTitle from "@/components/shared/PageTitle";
 import SearchBar from "@/components/shared/SearchBar";
 import { formatEnum } from "@/utils/formatEnum";
+import { downloadFile } from "@/utils/downloadFile";
 
 // Extract unique roles from data
 const roles = Array.from(new Set(userRoles.map((item) => item.title)));
@@ -102,8 +103,12 @@ const UsersTable = ({ users = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button>Export to CSV</Button>
-          <Button>Export to PDF</Button>
+          <Button onClick={() => downloadFile("user", "csv", "users.csv")}>
+            Export to CSV
+          </Button>
+          <Button onClick={() => downloadFile("user", "pdf", "users.pdf")}>
+            Export to PDF
+          </Button>
         </div>
       </section>
 

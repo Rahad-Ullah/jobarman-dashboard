@@ -34,6 +34,7 @@ export async function middleware(request: NextRequest) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
+      request.cookies.delete("accessToken");
       const loginUrl = new URL(`/login?redirect=${pathname}`, origin);
       return NextResponse.redirect(loginUrl);
     }
@@ -44,6 +45,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", origin));
   }
 
+  // allow super admin to access all routes
+  if (user?.role === "SUPER_ADMIN") return NextResponse.next();
+
   // Check role-based access
   if (user?.role && user?.adminaccess?.length > 0) {
     const allowedRoutes = user.adminaccess;
@@ -52,13 +56,11 @@ export async function middleware(request: NextRequest) {
       typeof route === "string" ? pathname === route : pathname.match(route)
     );
 
-    if (hasAccess) {
-      return NextResponse.next();
-    }
+    if (hasAccess) return NextResponse.next();
   }
 
   // Default redirect if access is denied
-  const defaultRedirectUrl = new URL("/profile", origin);
+  const defaultRedirectUrl = new URL("/not-allowed", origin);
   return NextResponse.redirect(defaultRedirectUrl);
 }
 
@@ -72,6 +74,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - Any path containing a period (e.g., .png, .jpg, .css, .js)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*|not-allowed|user/download-user-list).*)",
   ],
 };

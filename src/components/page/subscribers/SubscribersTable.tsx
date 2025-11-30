@@ -18,6 +18,7 @@ import DashboardTable from "@/components/shared/table";
 import TablePagination from "@/components/shared/table-pagination";
 import PageTitle from "@/components/shared/PageTitle";
 import subscriberTableColumns from "@/components/tableColumns/subscriberTableColumns";
+import { downloadFile } from "@/utils/downloadFile";
 
 // Extract unique roles from data
 // const roles = Array.from(new Set(userRoles.map((item) => item.title)));
@@ -90,8 +91,8 @@ const SubscriberTable = ({ users = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu> */}
-          <Button>Export to CSV</Button>
-          <Button>Export to PDF</Button>
+          <Button onClick={() => downloadFile("sub", "csv", "subscribers.csv")}>Export to CSV</Button>
+          <Button onClick={() => downloadFile("sub", "pdf", "subscribers.pdf")}>Export to PDF</Button>
         </div>
       </section>
 

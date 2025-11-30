@@ -29,6 +29,7 @@ import TablePagination from "@/components/shared/table-pagination";
 import PageTitle from "@/components/shared/PageTitle";
 import { JobPostStatus } from "@/constants/job-post";
 import jobPostTableColumns from "@/components/tableColumns/jobPostTableColumns";
+import { downloadFile } from "@/utils/downloadFile";
 
 const JobPostsTable = ({ users = [], filters, meta }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();
@@ -97,8 +98,8 @@ const JobPostsTable = ({ users = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button>Export to CSV</Button>
-          <Button>Export to PDF</Button>
+          <Button onClick={() => downloadFile("job", "csv", "job-posts.csv")}>Export to CSV</Button>
+          <Button onClick={() => downloadFile("job", "pdf", "job-posts.pdf")}>Export to PDF</Button>
         </div>
       </section>
 

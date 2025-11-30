@@ -30,6 +30,7 @@ import { ChevronDown } from "lucide-react";
 import { capitalizeSentence } from "@/utils/capitalizeSentence";
 import { useUpdateMultiSearchParams } from "@/hooks/useUpdateMultiSearchParams";
 import { adStatusTypes } from "@/constants/advertisement";
+import { downloadFile } from "@/utils/downloadFile";
 
 const AdsTable = ({ data = [], filters, meta }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();
@@ -101,8 +102,8 @@ const AdsTable = ({ data = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button>Export to CSV</Button>
-          <Button>Export to PDF</Button>
+          <Button onClick={() => downloadFile("ad", "csv", "ads.csv")}>Export to CSV</Button>
+          <Button onClick={() => downloadFile("ad", "pdf", "ads.pdf")}>Export to PDF</Button>
         </div>
       </section>
       {/* table and pagination*/}

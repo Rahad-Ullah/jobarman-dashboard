@@ -39,7 +39,7 @@ export default function AdsDetails({ item }: { item: IAdvertisement }) {
           alt="banner"
           width={800}
           height={200}
-          className="w-full h-auto rounded-lg shadow-md"
+          className="max-h-[300px] object-cover rounded-lg shadow-md"
         />
       </div>
 

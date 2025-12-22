@@ -21,7 +21,7 @@ const subscriberTableColumns: ColumnDef<ISubscriber>[] = [
     header: "User Name",
     cell: ({ row }) => {
       const item = row.original as ISubscriber;
-      return <p className="px-2 capitalize">{item?.user?.name}</p>;
+      return <p className="px-2 capitalize">{item?.user?.name || "-"}</p>;
     },
   },
   {
@@ -29,7 +29,15 @@ const subscriberTableColumns: ColumnDef<ISubscriber>[] = [
     header: "Email",
     cell: ({ row }) => {
       const item = row.original as ISubscriber;
-      return <p className="px-2">{item?.user?.email}</p>;
+      return <p className="px-2">{item?.user?.email || "-"}</p>;
+    },
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => {
+      const item = row.original as ISubscriber;
+      return <p className="px-2">{item?.user?.phone || "-"}</p>;
     },
   },
   {
@@ -45,7 +53,7 @@ const subscriberTableColumns: ColumnDef<ISubscriber>[] = [
     header: "Price",
     cell: ({ row }) => {
       const item = row.original as ISubscriber;
-      return <p className="px-2 capitalize">${item?.package?.price}</p>;
+      return <p className="px-2 capitalize">${item?.package?.price || "-"}</p>;
     },
   },
   {

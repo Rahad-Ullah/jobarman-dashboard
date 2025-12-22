@@ -16,10 +16,9 @@ import {
 import { IUser } from "@/types/user";
 import DashboardTable from "@/components/shared/table";
 import categoryTableColumns from "@/components/tableColumns/categoryTableColumns";
+import TablePagination from "@/components/shared/table-pagination";
 
-const CategoryTable = ({ data = [], filters }) => {
-  console.log(filters);
-
+const CategoryTable = ({ data = [], filters, meta }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -44,6 +43,10 @@ const CategoryTable = ({ data = [], filters }) => {
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex: 0,
+        pageSize: filters?.limit,
+      },
     },
   });
 
@@ -53,7 +56,7 @@ const CategoryTable = ({ data = [], filters }) => {
       {/* table and pagination*/}
       <section className="flex-1 flex flex-col justify-between gap-4 p-4 pt-2 bg-white rounded-xl">
         <DashboardTable table={table} columns={categoryTableColumns} />
-        {/* <TablePagination table={table} meta={meta} /> */}
+        <TablePagination table={table} meta={meta} />
       </section>
     </div>
   );

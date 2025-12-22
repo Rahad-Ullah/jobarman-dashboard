@@ -61,7 +61,10 @@ const UsersTable = ({ users = [], filters, meta }) => {
       columnFilters,
       columnVisibility,
       rowSelection,
-      // pagination: { pageIndex: 0, pageSize: 10 },
+      pagination: {
+        pageIndex: 0,
+        pageSize: meta?.limit,
+      },
     },
   });
 

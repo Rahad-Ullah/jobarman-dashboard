@@ -7,11 +7,12 @@ import { nextFetch } from "@/utils/nextFetch";
 import { Plus } from "lucide-react";
 
 const CategoriesPage = async ({ searchParams }) => {
-  const { searchTerm } = await searchParams;
+  const { searchTerm, limit = 50 } = await searchParams;
 
   // Build query parameters for the backend request
   const queryParams = new URLSearchParams({
     ...(searchTerm && { searchTerm }),
+    ...(limit && { limit }),
   });
 
   const res = await nextFetch(`/job-category?${queryParams.toString()}`, {
@@ -39,7 +40,11 @@ const CategoriesPage = async ({ searchParams }) => {
 
       {/* category list */}
       <section>
-        <CategoryTable data={res?.data} filters={{ searchTerm }} />
+        <CategoryTable
+          data={res?.data}
+          meta={res?.pagination}
+          filters={{ searchTerm, limit }}
+        />
       </section>
     </div>
   );

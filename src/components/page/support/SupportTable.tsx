@@ -57,6 +57,10 @@ const SupportTable = ({ tickets = [], filters, meta }) => {
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex: 0,
+        pageSize: meta?.limit,
+      },
     },
   });
 

@@ -59,7 +59,7 @@ const JobPostsTable = ({ users = [], filters, meta }) => {
       rowSelection,
       pagination: {
         pageIndex: 0,
-        pageSize: filters?.limit,
+        pageSize: meta?.limit,
       },
     },
   });

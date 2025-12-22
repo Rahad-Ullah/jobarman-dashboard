@@ -18,7 +18,7 @@ const UserDetails = ({ user }: { user: IUser }) => {
             alt="user-image"
             width={80}
             height={80}
-            className="rounded-full"
+            className="size-16 rounded-full"
           />
         </figure>
         <div className="flex flex-col justify-between">

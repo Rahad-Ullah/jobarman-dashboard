@@ -7,10 +7,32 @@ import DeleteModal from "../modals/DeleteModal";
 import Modal from "../modals/Modal";
 import UserDetails from "../page/users/userDetails/UserDetails";
 import { IUser } from "@/types/user";
+import toast from "react-hot-toast";
+import { nextFetch } from "@/utils/nextFetch";
 
-// handle delete
-const handleDelete = async () => {
-  // perform api here...
+// handle block/unblock user
+const handleUpdateStatus = async (id: string) => {
+  toast.loading("Updating status...", { id: "updateStatus" });
+  try {
+    const res = await nextFetch(`/user/change-status/${id}`, {
+      method: "PUT",
+    });
+    console.log(res);
+    if (res?.success) {
+      toast.success(res?.message || "Status updated successfully", {
+        id: "updateStatus",
+      });
+    } else {
+      toast.error(res?.message || "Failed to update status", {
+        id: "updateStatus",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("An error occurred while updating status", {
+      id: "updateStatus",
+    });
+  }
 };
 
 // table column definition
@@ -35,7 +57,15 @@ const columns: ColumnDef<IUser>[] = [
     header: "Email",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return <p className="px-2">{item?.email}</p>;
+      return <p className="px-2">{item?.email || "-"}</p>;
+    },
+  },
+  {
+    accessorKey: "name",
+    header: "Phone",
+    cell: ({ row }) => {
+      const item = row.original as IUser;
+      return <p className="px-2">{item?.phone || "-"}</p>;
     },
   },
   {
@@ -75,7 +105,7 @@ const columns: ColumnDef<IUser>[] = [
             <UserDetails user={item} />
           </Modal>
           {/* Block or unblock */}
-          {item.status === "inactive" ? (
+          {item.status === "delete" ? (
             <DeleteModal
               triggerBtn={
                 <Button
@@ -89,7 +119,7 @@ const columns: ColumnDef<IUser>[] = [
               title="Are you sure to unblock this user?"
               description="You can block the user later."
               itemId={item?._id?.toString() || ""}
-              action={handleDelete}
+              action={handleUpdateStatus}
             />
           ) : (
             <DeleteModal
@@ -105,7 +135,7 @@ const columns: ColumnDef<IUser>[] = [
               title="Are you sure to block this user?"
               description="You can unblock the user later."
               itemId={item?._id?.toString() || ""}
-              action={handleDelete}
+              action={handleUpdateStatus}
             />
           )}
         </div>

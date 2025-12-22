@@ -57,7 +57,15 @@ const supportTableColumns: ColumnDef<ISupportTicket>[] = [
     header: "Email",
     cell: ({ row }) => {
       const item = row.original as ISupportTicket;
-      return <p>{item?.user?.email}</p>;
+      return <p>{item?.user?.email || "-"}</p>;
+    },
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => {
+      const item = row.original as ISupportTicket;
+      return <p>{item?.user?.phone || "-"}</p>;
     },
   },
   {

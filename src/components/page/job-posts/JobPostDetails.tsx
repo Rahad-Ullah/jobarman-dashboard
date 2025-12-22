@@ -14,14 +14,16 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
       <section>
         <Image
           src={
-            item?.thumbnail?.includes("http")
-              ? item.thumbnail
-              : `${IMAGE_URL}${item?.thumbnail}`
+            item?.thumbnail?.trim()
+              ? item.thumbnail.includes("http")
+                ? item.thumbnail
+                : `${IMAGE_URL}${item.thumbnail}`
+              : "/demo.png"
           }
           alt="banner"
           width={1200}
           height={300}
-          className="w-auto max-h-[400px] mx-auto rounded-md"
+          className="w-auto max-h-[300px] mx-auto rounded-md"
         />
       </section>
 
@@ -29,11 +31,7 @@ export default function JobPostDetails({ item }: { item: IJobPost }) {
       <section className="flex gap-4 py-4 pt-12">
         <figure>
           <Image
-            src={
-              item?.recruiter?.image?.includes("http")
-                ? item.recruiter.image
-                : `${IMAGE_URL}${item?.recruiter.image}`
-            }
+            src={"/avatar.png"}
             alt="recruiter image"
             width={60}
             height={60}

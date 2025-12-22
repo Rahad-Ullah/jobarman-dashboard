@@ -57,6 +57,10 @@ const JobPostsTable = ({ users = [], filters, meta }) => {
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex: 0,
+        pageSize: filters?.limit,
+      },
     },
   });
 

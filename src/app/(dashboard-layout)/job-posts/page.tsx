@@ -2,11 +2,12 @@ import JobPostsTable from "@/components/page/job-posts/JobPostsTable";
 import { nextFetch } from "@/utils/nextFetch";
 
 const JobPostsPage = async ({ searchParams }) => {
-  const { status, page } = await searchParams;
+  const { status, page, limit = 50 } = await searchParams;
   // Build query parameters for the backend request
   const queryParams = new URLSearchParams({
     ...(status && { status }),
     ...(page && { page }),
+    ...(limit && { limit }),
   });
 
   // Fetch data from the backend when backend is ready
@@ -19,7 +20,7 @@ const JobPostsPage = async ({ searchParams }) => {
       <JobPostsTable
         users={res?.data}
         meta={res?.pagination}
-        filters={{ status, page }}
+        filters={{ status, page, limit }}
       />
     </>
   );

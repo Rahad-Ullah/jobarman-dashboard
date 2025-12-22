@@ -9,6 +9,7 @@ import UserDetails from "../page/users/userDetails/UserDetails";
 import { IUser } from "@/types/user";
 import toast from "react-hot-toast";
 import { nextFetch } from "@/utils/nextFetch";
+import { revalidate } from "@/helpers/revalidateHelper";
 
 // handle block/unblock user
 const handleUpdateStatus = async (id: string) => {
@@ -22,6 +23,8 @@ const handleUpdateStatus = async (id: string) => {
       toast.success(res?.message || "Status updated successfully", {
         id: "updateStatus",
       });
+      revalidate("users");
+      window.location.reload();
     } else {
       toast.error(res?.message || "Failed to update status", {
         id: "updateStatus",

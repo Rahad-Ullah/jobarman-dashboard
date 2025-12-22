@@ -55,7 +55,15 @@ const adminTableColumns: ColumnDef<IUser>[] = [
     header: "Email",
     cell: ({ row }) => {
       const item = row.original as IUser;
-      return <p className="px-2">{item?.email}</p>;
+      return <p className="px-2">{item?.email || "-"}</p>;
+    },
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => {
+      const item = row.original as IUser;
+      return <p className="px-2">{item?.phone || "-"}</p>;
     },
   },
   {
@@ -63,7 +71,7 @@ const adminTableColumns: ColumnDef<IUser>[] = [
     header: "Access",
     cell: ({ row }) => {
       const item = row.original as any;
-      return <p className="px-2">{item?.adminaccess?.length} Pages</p>;
+      return <p className="px-2">{item?.adminaccess?.length || 0} Pages</p>;
     },
   },
   {

@@ -47,7 +47,7 @@ const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  contact: z.string().nonempty("Contact is required"),
+  phone: z.string().nonempty("Phone is required"),
   permission: z.string().optional(),
 });
 
@@ -60,7 +60,7 @@ export default function AddAdminForm() {
       name: "",
       email: "",
       password: "",
-      contact: "",
+      phone: "",
       permission: "",
     },
   });
@@ -170,16 +170,16 @@ export default function AddAdminForm() {
           )}
         />
 
-        {/* Contact */}
+        {/* phone */}
         <FormField
           control={form.control}
-          name="contact"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Contact</FormLabel>
+              <FormLabel>Phone</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter contact number"
+                  placeholder="Enter phone number"
                   {...field}
                   className="bg-white"
                 />

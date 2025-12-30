@@ -56,7 +56,7 @@ const CompaniesTable = ({ data = [], filters, meta }) => {
     <div className="w-full min-h-full flex flex-col">
       {/* table top option bar */}
       <section className="flex flex-wrap justify-between items-center gap-4 pb-4">
-        <PageTitle>Companies Info</PageTitle>
+        <PageTitle>Company Management</PageTitle>
       </section>
 
       {/* table and pagination*/}

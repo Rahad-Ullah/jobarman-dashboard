@@ -12,6 +12,7 @@ import {
   UserRound,
   UsersRound,
   UserStar,
+  Warehouse,
 } from "lucide-react";
 
 export const sidebarMenu = {
@@ -31,6 +32,11 @@ export const sidebarMenu = {
       title: "Job Post Moderation",
       url: "/job-posts",
       icon: BriefcaseBusiness,
+    },
+    {
+      title: "Company Management",
+      url: "/companies",
+      icon: Warehouse,
     },
     {
       title: "Category Management",

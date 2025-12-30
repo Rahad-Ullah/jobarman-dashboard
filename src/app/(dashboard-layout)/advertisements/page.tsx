@@ -15,6 +15,10 @@ const AdsPage = async ({ searchParams }) => {
     tags: ["advertisements"],
   });
 
+  const adPriceRes = await nextFetch(`/admin/spotlight/price`, {
+    tags: ["adPrice"],
+  });
+
   return (
     <div className="w-full h-full flex flex-col">
       {/* category list */}
@@ -22,6 +26,7 @@ const AdsPage = async ({ searchParams }) => {
         data={res?.data}
         filters={{ status, page } as never}
         meta={res?.pagination}
+        adPrice={adPriceRes?.data?.price}
       />
     </div>
   );

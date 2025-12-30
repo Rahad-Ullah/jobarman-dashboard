@@ -31,8 +31,10 @@ import { capitalizeSentence } from "@/utils/capitalizeSentence";
 import { useUpdateMultiSearchParams } from "@/hooks/useUpdateMultiSearchParams";
 import { adStatusTypes } from "@/constants/advertisement";
 import { downloadFile } from "@/utils/downloadFile";
+import Modal from "@/components/modals/Modal";
+import UpdateAdPrice from "./UpdateAdPrice";
 
-const AdsTable = ({ data = [], filters, meta }) => {
+const AdsTable = ({ data = [], filters, meta, adPrice }) => {
   const updateMultiSearchParams = useUpdateMultiSearchParams();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -102,8 +104,21 @@ const AdsTable = ({ data = [], filters, meta }) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={() => downloadFile("ad", "csv", "ads.csv")}>Export to CSV</Button>
-          <Button onClick={() => downloadFile("ad", "pdf", "ads.pdf")}>Export to PDF</Button>
+
+          <Modal
+            dialogTrigger={<Button variant={"outline"}>Update Price</Button>}
+            dialogTitle="Update Ad Price"
+            className="max-w-[35vw] max-h-[90vh] overflow-y-scroll no-scrollbar p-8 bg-secondary-foreground"
+          >
+            <UpdateAdPrice price={adPrice} />
+          </Modal>
+
+          <Button onClick={() => downloadFile("ad", "csv", "ads.csv")}>
+            Export to CSV
+          </Button>
+          <Button onClick={() => downloadFile("ad", "pdf", "ads.pdf")}>
+            Export to PDF
+          </Button>
         </div>
       </section>
       {/* table and pagination*/}

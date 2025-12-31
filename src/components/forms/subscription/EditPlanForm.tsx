@@ -26,6 +26,7 @@ import { ISubscriptionPlan } from "@/components/page/subscriptions/PlanCard";
 import toast from "react-hot-toast";
 import { nextFetch } from "@/utils/nextFetch";
 import { revalidate } from "@/helpers/revalidateHelper";
+import { subscriptionPlanTypes } from "@/constants/subscription";
 
 const formSchema = z.object({
   name: z.string().min(1, "Plan name is required").optional(),
@@ -126,11 +127,11 @@ export default function EditPlanForm({ initialPlan }: Props) {
                       <SelectValue placeholder="Select Plan Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Free Plan">Free Plan</SelectItem>
-                      <SelectItem value="Silver Plan">Silver Plan</SelectItem>
-                      <SelectItem value="Platinum Plan">
-                        Platinum Plan
-                      </SelectItem>
+                      {subscriptionPlanTypes.map((type, index) => (
+                        <SelectItem value={type.name} key={index}>
+                          {type.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>

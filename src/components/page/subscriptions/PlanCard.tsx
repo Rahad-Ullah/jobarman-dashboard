@@ -4,6 +4,7 @@ import EditPlanForm from "@/components/forms/subscription/EditPlanForm";
 import DeleteModal from "@/components/modals/DeleteModal";
 import Modal from "@/components/modals/Modal";
 import { Button } from "@/components/ui/button";
+import { subscriptionPlanTypes } from "@/constants/subscription";
 import { revalidate } from "@/helpers/revalidateHelper";
 import { nextFetch } from "@/utils/nextFetch";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -33,25 +34,11 @@ type Props = {
   idx?: number;
 };
 
-const icons = [
-  {
-    name: "Free Plan",
-    icon: "https://cdn-icons-png.flaticon.com/512/6130/6130708.png",
-  },
-  {
-    name: "Silver Plan",
-    icon: "https://cdn-icons-png.freepik.com/512/7955/7955211.png",
-  },
-  {
-    name: "Platinum Plan",
-    icon: "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
-  },
-];
-
 const getIcon = (planName: string) => {
   return (
-    icons.find((item) => item.name.toLowerCase() === planName.toLowerCase())
-      ?.icon ?? icons[0].icon // fallback icon
+    subscriptionPlanTypes.find(
+      (item) => item.name.toLowerCase() === planName.toLowerCase()
+    )?.icon || subscriptionPlanTypes[0].icon // fallback icon
   );
 };
 

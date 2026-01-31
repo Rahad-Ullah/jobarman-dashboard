@@ -23,6 +23,7 @@ export interface ISubscriptionPlan {
   paymentId: string;
   referenceId: string;
   recurring: "month" | "year" | string;
+  interval: number;
   status: "active" | "inactive" | string;
   createdAt: string;
   updatedAt: string;
@@ -37,7 +38,7 @@ type Props = {
 const getIcon = (planName: string) => {
   return (
     subscriptionPlanTypes.find(
-      (item) => item.name.toLowerCase() === planName.toLowerCase()
+      (item) => item.name.toLowerCase() === planName.toLowerCase(),
     )?.icon || subscriptionPlanTypes[0].icon // fallback icon
   );
 };

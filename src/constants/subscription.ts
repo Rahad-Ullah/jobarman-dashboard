@@ -11,4 +11,8 @@ export const subscriptionPlanTypes = [
     name: "Gold",
     icon: "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
   },
+  {
+    name: "Premium",
+    icon: "https://cdn-icons-png.flaticon.com/128/12366/12366739.png",
+  },
 ];

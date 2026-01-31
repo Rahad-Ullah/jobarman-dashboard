@@ -37,6 +37,9 @@ const formSchema = z.object({
   paymentId: z.string().min(1, "Payment ID is required"),
   referenceId: z.string().min(1, "Reference ID is required"),
   recurring: z.string().nonempty("Recurring is required"),
+  interval: z.coerce
+    .number()
+    .positive("Recurring count must be greater than 0"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -52,6 +55,7 @@ export default function AddPlanForm() {
       paymentId: "",
       referenceId: "",
       recurring: "",
+      interval: 1,
     },
   });
 
@@ -235,6 +239,35 @@ export default function AddPlanForm() {
                   <SelectContent>
                     <SelectItem value="month">Monthly</SelectItem>
                     <SelectItem value="year">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* interval count */}
+        <FormField
+          control={form.control}
+          name="interval"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Interval Count</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value.toString()}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Interval Count" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((count) => (
+                      <SelectItem value={count.toString()} key={count}>
+                        {count}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>

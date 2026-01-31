@@ -5,19 +5,21 @@ import { getCookie } from "cookies-next/client";
 export async function downloadFile(
   item: string,
   fileType: "csv" | "pdf",
-  filename: string
+  filename: string,
 ) {
   try {
     const token = getCookie("accessToken");
+    const urlParams = new URLSearchParams(window.location.search);
+    const role = urlParams.get("role");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/user/download-user-list?downloadItem=${item}&downloadType=${fileType}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/user/download-user-list?downloadItem=${item}&downloadType=${fileType}&role=${role || ""}`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {

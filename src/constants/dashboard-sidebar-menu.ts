@@ -9,6 +9,7 @@ import {
   MessageCircleQuestion,
   ShieldCheck,
   ShieldUser,
+  Star,
   UserRound,
   UsersRound,
   UserStar,
@@ -77,6 +78,11 @@ export const sidebarMenu = {
       title: "FAQ",
       url: "/faq",
       icon: MessageCircleQuestion,
+    },
+    {
+      title: "Reviews",
+      url: "/reviews",
+      icon: Star,
     },
     {
       title: "Help & Support",

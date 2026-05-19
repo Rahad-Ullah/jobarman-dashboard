@@ -1,7 +1,7 @@
 import CompaniesTable from "@/components/page/companies/CompaniesTable";
 import { nextFetch } from "@/utils/nextFetch";
 const CompaniesPage = async ({ searchParams }) => {
-  const { role, searchTerm, page, limit = 50 } = await searchParams;
+  const { role, searchTerm, page, limit } = await searchParams;
   // Build query parameters for the backend request
   const queryParams = new URLSearchParams({
     ...(role && { role }),

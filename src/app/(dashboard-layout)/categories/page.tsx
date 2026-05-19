@@ -7,7 +7,7 @@ import { nextFetch } from "@/utils/nextFetch";
 import { Plus } from "lucide-react";
 
 const CategoriesPage = async ({ searchParams }) => {
-  const { searchTerm, limit = 50 } = await searchParams;
+  const { searchTerm, limit = 500 } = await searchParams;
 
   // Build query parameters for the backend request
   const queryParams = new URLSearchParams({

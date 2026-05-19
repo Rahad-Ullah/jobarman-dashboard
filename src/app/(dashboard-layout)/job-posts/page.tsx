@@ -2,7 +2,7 @@ import JobPostsTable from "@/components/page/job-posts/JobPostsTable";
 import { nextFetch } from "@/utils/nextFetch";
 
 const JobPostsPage = async ({ searchParams }) => {
-  const { status, page, limit = 50 } = await searchParams;
+  const { status, page, limit } = await searchParams;
   // Build query parameters for the backend request
   const queryParams = new URLSearchParams({
     ...(status && { status }),

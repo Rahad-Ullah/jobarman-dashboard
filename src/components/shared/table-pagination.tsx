@@ -5,7 +5,6 @@ import {
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
@@ -22,42 +21,32 @@ const TablePagination = ({ table, meta }) => {
       </div> */}
       <div className="flex justify-center flex-1">
         <Pagination className="text-[#A7A7A7]">
-          <PaginationContent className="">
+          <PaginationContent className="gap-4">
             {/* previous button */}
             <PaginationItem>
               <PaginationPrevious
                 onClick={() =>
                   updateSearchParams(
                     "page",
-                    page > 1 ? `${page - 1}` : `${page}`
+                    page > 1 ? `${page - 1}` : `${page}`,
                   )
                 }
                 className={page <= 1 ? "cursor-not-allowed opacity-50" : ""}
               />
             </PaginationItem>
-            {/* page buttons */}
-            {Array.from({ length: meta?.totalPage }).map((_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  onClick={() =>
-                    updateSearchParams("page", (index + 1).toString())
-                  }
-                  isActive={page == index + 1}
-                >
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationEllipsis />
+            <PaginationItem className="text-gray-500 text-sm font-medium">
+              Page {meta?.page} of {meta?.totalPage}
             </PaginationItem>
+            {/* <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem> */}
             {/* next button */}
             <PaginationItem>
               <PaginationNext
                 onClick={() =>
                   updateSearchParams(
                     "page",
-                    page < meta?.totalPage ? `${page + 1}` : `${page}`
+                    page < meta?.totalPage ? `${page + 1}` : `${page}`,
                   )
                 }
                 className={

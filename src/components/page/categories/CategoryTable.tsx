@@ -56,7 +56,7 @@ const CategoryTable = ({ data = [], filters, meta }) => {
       {/* table and pagination*/}
       <section className="flex-1 flex flex-col justify-between gap-4 p-4 pt-2 bg-white rounded-xl">
         <DashboardTable table={table} columns={categoryTableColumns} />
-        <TablePagination table={table} meta={meta} />
+        {/* <TablePagination table={table} meta={meta} /> */}
       </section>
     </div>
   );

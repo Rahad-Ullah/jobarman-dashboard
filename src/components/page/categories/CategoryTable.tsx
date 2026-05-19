@@ -16,12 +16,11 @@ import {
 import { IUser } from "@/types/user";
 import DashboardTable from "@/components/shared/table";
 import categoryTableColumns from "@/components/tableColumns/categoryTableColumns";
-import TablePagination from "@/components/shared/table-pagination";
 
-const CategoryTable = ({ data = [], filters, meta }) => {
+const CategoryTable = ({ data = [], filters }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});

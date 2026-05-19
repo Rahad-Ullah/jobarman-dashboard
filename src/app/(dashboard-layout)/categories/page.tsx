@@ -40,11 +40,7 @@ const CategoriesPage = async ({ searchParams }) => {
 
       {/* category list */}
       <section>
-        <CategoryTable
-          data={res?.data}
-          meta={res?.pagination}
-          filters={{ searchTerm, limit }}
-        />
+        <CategoryTable data={res?.data} filters={{ searchTerm, limit }} />
       </section>
     </div>
   );

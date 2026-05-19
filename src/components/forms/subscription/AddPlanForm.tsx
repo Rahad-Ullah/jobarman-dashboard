@@ -113,14 +113,14 @@ export default function AddPlanForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Plan Type</FormLabel>
+                <FormLabel>Plan Name</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Plan Type" />
+                      <SelectValue placeholder="Select Plan Name" />
                     </SelectTrigger>
                     <SelectContent>
                       {subscriptionPlanTypes.map((type, index) => (

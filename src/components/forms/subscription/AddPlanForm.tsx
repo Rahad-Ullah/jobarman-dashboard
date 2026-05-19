@@ -29,7 +29,9 @@ import { subscriptionPlanTypes } from "@/constants/subscription";
 
 const formSchema = z.object({
   name: z.string().min(1, "Plan name is required"),
-  price: z.coerce.number().positive("Price must be greater than 0"),
+  price: z.coerce
+    .number()
+    .nonnegative("Price must be greater than or equal to 0"),
   for: z.enum(["employee", "recruiter"], {
     required_error: "Plan type is required",
   }),

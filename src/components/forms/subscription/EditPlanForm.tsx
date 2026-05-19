@@ -30,7 +30,10 @@ import { subscriptionPlanTypes } from "@/constants/subscription";
 
 const formSchema = z.object({
   name: z.string().min(1, "Plan name is required").optional(),
-  price: z.coerce.number().positive("Price must be greater than 0").optional(),
+  price: z.coerce
+    .number()
+    .nonnegative("Price must be greater than or equal to 0")
+    .optional(),
   for: z.string().nonempty("For is required").optional(),
   feature: z.string().optional(),
   paymentId: z.string().min(1, "Payment ID is required").optional(),

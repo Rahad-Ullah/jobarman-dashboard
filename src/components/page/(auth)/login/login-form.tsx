@@ -50,7 +50,7 @@ export function LoginForm({
         }
         toast.success(res?.message as string, { id: "login" });
         setCookie("accessToken", res?.data?.createToken);
-        setCookie("accessToken", res?.data?.refreshToken);
+        setCookie("refreshToken", res?.data?.refreshToken);
         router.push(res?.data?.role === "SUPER_ADMIN" ? "/" : "/profile");
       } else {
         toast.error(res?.message || "Failed to login", { id: "login" });

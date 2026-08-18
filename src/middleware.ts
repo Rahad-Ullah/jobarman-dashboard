@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Get the current user from the session
-  const user = await getProfile();
+  const user = await getProfile(token);
 
   if (!user) {
     if (authRoutes.includes(pathname)) {

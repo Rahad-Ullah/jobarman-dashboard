@@ -2,8 +2,8 @@
 
 import { cookies } from "next/headers";
 
-const getProfile = async () => {
-  const token = (await cookies()).get("accessToken")?.value;
+const getProfile = async (token?: string) => {
+  if (!token) token = (await cookies()).get("accessToken")?.value || '';
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
     next: {

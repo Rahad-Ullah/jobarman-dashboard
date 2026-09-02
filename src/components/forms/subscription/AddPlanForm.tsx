@@ -119,10 +119,10 @@ export default function AddPlanForm() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="capitalize">
                       <SelectValue placeholder="Select Plan Name" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="capitalize">
                       {subscriptionPlanTypes.map((type, index) => (
                         <SelectItem value={type.name} key={index}>
                           {type.name}
